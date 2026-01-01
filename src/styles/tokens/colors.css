@@ -1,0 +1,89 @@
+/*
+ * Quality Time - Color System
+ * Collins-inspired: refined off-tones with vibrant orange accent
+ */
+
+:root {
+  /* Base palette - Collins-inspired */
+  --color-ink: #140700;
+  --color-paper: #f8f8f7;
+  --color-cream: #f0efed;
+  --color-stone: #e5e4e1;
+
+  /* Mid-tones for subtle differentiation */
+  --color-mid-black: #5e5855;
+  --color-mid-white: #d0d0c8;
+
+  /* Grays - warm undertones */
+  --color-gray-100: #f5f4f2;
+  --color-gray-200: #e8e7e4;
+  --color-gray-300: #d5d3cf;
+  --color-gray-400: #a8a49c;
+  --color-gray-500: #7a756c;
+  --color-gray-600: #5e5855;
+  --color-gray-700: #3d3935;
+  --color-gray-800: #252220;
+  --color-gray-900: #1a1815;
+
+  /* Accent - vibrant orange (Collins "Brian orange") */
+  --color-accent: #ff7600;
+  --color-accent-light: #ff9033;
+  --color-accent-dark: #e66a00;
+  --color-accent-muted: #cc6b1a;
+
+  /* Overlay colors for blur effects */
+  --color-overlay-light: rgba(248, 248, 247, 0.88);
+  --color-overlay-dark: rgba(20, 7, 0, 0.88);
+
+  /* Semantic - Light mode */
+  --color-text-primary: var(--color-ink);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-muted: var(--color-gray-500);
+  --color-text-inverse: var(--color-paper);
+
+  --color-bg-primary: var(--color-paper);
+  --color-bg-secondary: var(--color-cream);
+  --color-bg-tertiary: var(--color-stone);
+  --color-bg-inverse: var(--color-ink);
+
+  --color-border: var(--color-gray-200);
+  --color-border-strong: var(--color-gray-300);
+
+  /* Interactive states */
+  --color-focus: var(--color-accent);
+  --color-hover: var(--color-ink);
+
+  /* Shadows - warm */
+  --shadow-sm: 0 1px 2px rgba(20, 7, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(20, 7, 0, 0.06);
+  --shadow-lg: 0 12px 32px rgba(20, 7, 0, 0.08);
+  --shadow-xl: 0 24px 64px rgba(20, 7, 0, 0.12);
+
+  /* Backdrop blur */
+  --backdrop-blur-sm: blur(8px);
+  --backdrop-blur-md: blur(16px);
+  --backdrop-blur-lg: blur(24px);
+}
+
+/* Dark mode - inverted with same warmth */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text-primary: var(--color-paper);
+    --color-text-secondary: var(--color-gray-400);
+    --color-text-muted: var(--color-gray-500);
+    --color-text-inverse: var(--color-ink);
+
+    --color-bg-primary: var(--color-ink);
+    --color-bg-secondary: var(--color-gray-900);
+    --color-bg-tertiary: var(--color-gray-800);
+    --color-bg-inverse: var(--color-paper);
+
+    --color-border: var(--color-gray-800);
+    --color-border-strong: var(--color-gray-700);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.4);
+    --shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.5);
+  }
+}

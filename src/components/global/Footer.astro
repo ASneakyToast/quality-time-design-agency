@@ -1,0 +1,532 @@
+---
+const currentYear = new Date().getFullYear();
+
+const services = [
+  'Branding',
+  'Web Design',
+  'UI/UX',
+  'Print',
+  'Packaging',
+  'Motion',
+];
+
+const navLinks = [
+  { label: 'Work', href: '/work' },
+  { label: 'About', href: '/about' },
+];
+
+const socialLinks = [
+  { label: 'Instagram', href: 'https://instagram.com/qualitytime.fun' },
+  { label: 'Twitter', href: 'https://twitter.com/qualitytime' },
+  { label: 'LinkedIn', href: 'https://linkedin.com/company/qualitytime' },
+];
+---
+
+<footer class="footer">
+  <div class="footer-inner">
+    <!-- Collins-style CTA Section -->
+    <section class="footer-cta" data-animate>
+      <h2 class="cta-heading">Let's create something together</h2>
+      <a href="mailto:hello@qualitytime.fun" class="cta-button">
+        <span>Get in touch</span>
+        <span class="cta-arrow" aria-hidden="true">
+          <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </span>
+      </a>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="footer-newsletter">
+      <h3 class="newsletter-title">Stay in the loop</h3>
+      <form class="newsletter-form" data-newsletter-form>
+        <div class="newsletter-input-wrapper">
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            class="newsletter-input"
+            required
+            aria-label="Email address"
+          />
+          <button type="submit" class="newsletter-submit">
+            <span class="submit-text">Subscribe</span>
+            <svg class="submit-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+        <p class="newsletter-note">No spam. Unsubscribe anytime.</p>
+      </form>
+    </section>
+
+    <!-- Links Grid -->
+    <div class="footer-grid">
+      <!-- Brand column -->
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">
+          <span class="footer-logo-text">Quality Time</span>
+        </a>
+        <p class="footer-tagline">
+          San Francisco design collective specializing in branding and comprehensive design systems.
+        </p>
+      </div>
+
+      <!-- Navigation column -->
+      <div class="footer-col">
+        <h4 class="footer-heading">Navigate</h4>
+        <ul class="footer-list">
+          {navLinks.map((link) => (
+            <li>
+              <a href={link.href} class="footer-link">{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Services column -->
+      <div class="footer-col">
+        <h4 class="footer-heading">Services</h4>
+        <ul class="footer-list">
+          {services.map((service) => (
+            <li>{service}</li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Contact column -->
+      <div class="footer-col">
+        <h4 class="footer-heading">Connect</h4>
+        <ul class="footer-list">
+          <li>
+            <a href="mailto:hello@qualitytime.fun" class="footer-link">
+              hello@qualitytime.fun
+            </a>
+          </li>
+          <li class="footer-location">San Francisco, CA</li>
+        </ul>
+
+        <div class="footer-social">
+          {socialLinks.map((link) => (
+            <a
+              href={link.href}
+              class="social-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={link.label}
+            >
+              {link.label}
+              <span class="social-arrow" aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+      <p class="footer-copyright">
+        © {currentYear} Quality Time. All rights reserved.
+      </p>
+      <p class="footer-credit">
+        <span class="footer-credit-label">An interdisciplinary design collective</span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* ==========================================================================
+     Collins-inspired Footer
+     ========================================================================== */
+  .footer {
+    margin-top: auto;
+    padding: var(--footer-padding) var(--gutter) var(--space-10);
+    background-color: var(--color-bg-secondary);
+  }
+
+  .footer-inner {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+  }
+
+  /* ==========================================================================
+     CTA Section
+     ========================================================================== */
+  .footer-cta {
+    text-align: center;
+    padding-bottom: var(--space-20);
+    margin-bottom: var(--space-16);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .cta-heading {
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    font-weight: var(--font-regular);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-tighter);
+    margin-bottom: var(--space-8);
+    max-width: 12ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-8);
+    border: 1px solid var(--color-ink);
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-ink);
+    background: transparent;
+    transition: all var(--duration-normal) var(--ease-spring);
+  }
+
+  .cta-button:hover {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+    gap: var(--space-5);
+    opacity: 1;
+  }
+
+  .cta-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .arrow-icon {
+    transition: transform var(--duration-fast) var(--ease-spring);
+  }
+
+  .cta-button:hover .arrow-icon {
+    transform: translateX(4px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .cta-button {
+      border-color: var(--color-paper);
+      color: var(--color-paper);
+    }
+
+    .cta-button:hover {
+      background-color: var(--color-paper);
+      color: var(--color-ink);
+    }
+  }
+
+  /* ==========================================================================
+     Newsletter Section
+     ========================================================================== */
+  .footer-newsletter {
+    max-width: 480px;
+    margin: 0 auto;
+    padding-bottom: var(--space-16);
+    margin-bottom: var(--space-16);
+    border-bottom: 1px solid var(--color-border);
+    text-align: center;
+  }
+
+  .newsletter-title {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+  }
+
+  .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .newsletter-input-wrapper {
+    display: flex;
+    gap: var(--space-3);
+    width: 100%;
+  }
+
+  .newsletter-input {
+    flex: 1;
+    padding: var(--space-4) var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-primary);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-lg);
+    transition: all var(--duration-fast) var(--ease-out);
+  }
+
+  .newsletter-input::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .newsletter-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(255, 118, 0, 0.15);
+  }
+
+  .newsletter-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-6);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-paper);
+    background-color: var(--color-ink);
+    border: 1px solid var(--color-ink);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-spring);
+  }
+
+  .newsletter-submit:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .newsletter-submit:active {
+    transform: scale(var(--scale-press));
+  }
+
+  .submit-icon {
+    transition: transform var(--duration-fast) var(--ease-spring);
+  }
+
+  .newsletter-submit:hover .submit-icon {
+    transform: translateX(2px);
+  }
+
+  .newsletter-note {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .newsletter-submit {
+      color: var(--color-ink);
+      background-color: var(--color-paper);
+      border-color: var(--color-paper);
+    }
+  }
+
+  /* ==========================================================================
+     Footer Grid
+     ========================================================================== */
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--space-12);
+    padding-bottom: var(--space-16);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* Brand */
+  .footer-logo {
+    display: inline-block;
+    margin-bottom: var(--space-6);
+  }
+
+  .footer-logo:hover {
+    opacity: 1;
+  }
+
+  .footer-logo-text {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-primary);
+  }
+
+  .footer-tagline {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    max-width: 32ch;
+  }
+
+  /* Columns */
+  .footer-heading {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-5);
+  }
+
+  .footer-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .footer-list li {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .footer-link {
+    color: var(--color-text-primary);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .footer-link:hover {
+    opacity: 1;
+    color: var(--color-accent);
+  }
+
+  .footer-location {
+    margin-top: var(--space-2);
+    color: var(--color-text-muted);
+  }
+
+  /* Social */
+  .footer-social {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+  }
+
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-text-primary);
+    transition: all var(--duration-fast) var(--ease-spring);
+  }
+
+  .social-link:hover {
+    opacity: 1;
+    color: var(--color-accent);
+    gap: var(--space-2);
+  }
+
+  .social-arrow {
+    font-size: var(--text-xs);
+    opacity: 0.5;
+    transition: all var(--duration-fast) var(--ease-out);
+  }
+
+  .social-link:hover .social-arrow {
+    opacity: 1;
+  }
+
+  /* ==========================================================================
+     Bottom Bar
+     ========================================================================== */
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-8);
+  }
+
+  .footer-copyright,
+  .footer-credit {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .footer-credit-label {
+    font-style: italic;
+  }
+
+  /* ==========================================================================
+     Responsive
+     ========================================================================== */
+  @media (max-width: 1024px) {
+    .footer-grid {
+      grid-template-columns: 1.5fr 1fr 1fr;
+    }
+
+    .footer-grid .footer-col:nth-child(2) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .cta-heading {
+      font-size: var(--text-4xl);
+    }
+
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-10) var(--space-8);
+    }
+
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+
+    .newsletter-input-wrapper {
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-10);
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      gap: var(--space-4);
+      text-align: center;
+    }
+  }
+</style>
+
+<script>
+  // Newsletter form handling
+  const form = document.querySelector('[data-newsletter-form]') as HTMLFormElement;
+
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = (form.querySelector('input[type="email"]') as HTMLInputElement)?.value;
+
+      if (email) {
+        // Here you would integrate with your newsletter service
+        console.log('Newsletter signup:', email);
+
+        // Show success feedback
+        const button = form.querySelector('.newsletter-submit') as HTMLButtonElement;
+        const originalText = button.querySelector('.submit-text')?.textContent;
+
+        if (button && originalText) {
+          button.querySelector('.submit-text')!.textContent = 'Subscribed!';
+          button.disabled = true;
+
+          setTimeout(() => {
+            button.querySelector('.submit-text')!.textContent = originalText;
+            button.disabled = false;
+            form.reset();
+          }, 2000);
+        }
+      }
+    });
+  }
+</script>

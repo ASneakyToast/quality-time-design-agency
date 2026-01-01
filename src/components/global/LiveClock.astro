@@ -1,0 +1,98 @@
+---
+interface Props {
+  timezone?: string;
+  label?: string;
+}
+
+const { timezone = 'America/Los_Angeles', label = 'SF' } = Astro.props;
+---
+
+<div class="clock" data-timezone={timezone}>
+  <span class="clock-time">--:--</span>
+  <span class="clock-separator">·</span>
+  <span class="clock-label">{label}</span>
+</div>
+
+<style>
+  .clock {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+  }
+
+  .clock-time {
+    font-variant-numeric: tabular-nums;
+    min-width: 5ch;
+  }
+
+  .clock-separator {
+    opacity: 0.4;
+  }
+
+  .clock-label {
+    opacity: 0.6;
+  }
+
+  @media (max-width: 480px) {
+    .clock {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  class LiveClock {
+    private element: HTMLElement;
+    private timeElement: HTMLElement | null;
+    private timezone: string;
+    private intervalId: number | null = null;
+
+    constructor(element: HTMLElement) {
+      this.element = element;
+      this.timeElement = element.querySelector('.clock-time');
+      this.timezone = element.dataset.timezone || 'America/Los_Angeles';
+      this.init();
+    }
+
+    private init() {
+      this.updateTime();
+      this.intervalId = window.setInterval(() => this.updateTime(), 1000);
+    }
+
+    private updateTime() {
+      if (!this.timeElement) return;
+
+      const now = new Date();
+      const options: Intl.DateTimeFormatOptions = {
+        timeZone: this.timezone,
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+      };
+
+      const timeString = now.toLocaleTimeString('en-US', options);
+      // Remove AM/PM and format nicely
+      const cleanTime = timeString.replace(/\s?(AM|PM)/i, '').toLowerCase();
+      const period = timeString.match(/AM|PM/i)?.[0]?.toLowerCase() || '';
+
+      this.timeElement.textContent = `${cleanTime}${period}`;
+    }
+
+    destroy() {
+      if (this.intervalId) {
+        clearInterval(this.intervalId);
+      }
+    }
+  }
+
+  // Initialize all clocks
+  document.querySelectorAll<HTMLElement>('.clock').forEach((el) => {
+    new LiveClock(el);
+  });
+</script>

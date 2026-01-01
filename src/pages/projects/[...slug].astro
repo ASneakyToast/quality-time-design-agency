@@ -1,0 +1,390 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => !data.draft);
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, client, year, heroImage, services, description, liveUrl, credits, accentColor } = project.data;
+
+// Service labels
+const serviceLabels: Record<string, string> = {
+  'branding': 'Branding',
+  'web-design': 'Web Design',
+  'ui-ux': 'UI/UX Design',
+  'print': 'Print',
+  'packaging': 'Packaging',
+  'illustration': 'Illustration',
+  'motion': 'Motion',
+  'photography': 'Photography',
+};
+
+// Get other projects for navigation
+const allProjects = await getCollection('projects', ({ data }) => !data.draft);
+const currentIndex = allProjects.findIndex((p) => p.id === project.id);
+const nextProject = allProjects[(currentIndex + 1) % allProjects.length];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+>
+  <article class="project" style={accentColor ? `--project-accent: ${accentColor}` : ''}>
+    <!-- Hero -->
+    <header class="project-hero">
+      <div class="project-hero-content">
+        <div class="project-meta">
+          <span class="project-client">{client}</span>
+          <span class="project-year">{year}</span>
+        </div>
+        <h1 class="project-title">{title}</h1>
+        <p class="project-description">{description}</p>
+
+        <div class="project-details">
+          <div class="project-detail">
+            <span class="project-detail-label">Services</span>
+            <span class="project-detail-value">
+              {services.map((s) => serviceLabels[s] || s).join(', ')}
+            </span>
+          </div>
+          {liveUrl && (
+            <div class="project-detail">
+              <span class="project-detail-label">Website</span>
+              <a href={liveUrl} class="project-link" target="_blank" rel="noopener noreferrer">
+                Visit Site <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Image -->
+    <div class="project-hero-image">
+      <Image
+        src={heroImage}
+        alt={`${title} hero image`}
+        widths={[800, 1200, 1600, 2000]}
+        sizes="100vw"
+        loading="eager"
+        class="hero-img"
+      />
+    </div>
+
+    <!-- Content -->
+    <div class="project-content">
+      <Content />
+    </div>
+
+    <!-- Credits -->
+    {credits && credits.length > 0 && (
+      <aside class="project-credits">
+        <h3 class="credits-title">Credits</h3>
+        <ul class="credits-list">
+          {credits.map((credit) => (
+            <li class="credit-item">
+              <span class="credit-role">{credit.role}</span>
+              <span class="credit-name">{credit.name}</span>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    )}
+
+    <!-- Next Project -->
+    <nav class="project-nav">
+      <a href={`/projects/${nextProject.id}`} class="next-project">
+        <span class="next-label">Next Project</span>
+        <span class="next-title">{nextProject.data.title}</span>
+      </a>
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .project {
+    --accent: var(--project-accent, var(--color-text-primary));
+  }
+
+  /* Hero */
+  .project-hero {
+    padding: var(--space-32) var(--gutter) var(--space-16);
+  }
+
+  .project-hero-content {
+    max-width: var(--container-lg);
+    margin: 0 auto;
+  }
+
+  .project-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+    opacity: 0;
+    animation: fadeIn 0.6s var(--ease-out) 0.1s forwards;
+  }
+
+  .project-year::before {
+    content: '·';
+    margin-right: var(--space-3);
+    opacity: 0.5;
+  }
+
+  .project-title {
+    font-family: var(--font-display);
+    font-size: var(--text-5xl);
+    font-weight: var(--font-regular);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tighter);
+    margin-bottom: var(--space-6);
+    opacity: 0;
+    animation: slideIn 0.7s var(--ease-out) 0.15s forwards;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .project-description {
+    font-size: var(--text-xl);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    max-width: 55ch;
+    margin-bottom: var(--space-10);
+    opacity: 0;
+    animation: fadeIn 0.6s var(--ease-out) 0.25s forwards;
+  }
+
+  .project-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-10);
+    opacity: 0;
+    animation: fadeIn 0.6s var(--ease-out) 0.35s forwards;
+  }
+
+  .project-detail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .project-detail-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .project-detail-value {
+    font-size: var(--text-sm);
+    color: var(--color-text-primary);
+  }
+
+  .project-link {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-text-primary);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .project-link:hover {
+    opacity: 0.7;
+  }
+
+  /* Hero Image */
+  .project-hero-image {
+    padding: 0 var(--gutter);
+    margin-bottom: var(--section-gap-sm);
+    opacity: 0;
+    animation: fadeIn 0.8s var(--ease-out) 0.4s forwards;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: auto;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: block;
+  }
+
+  /* Content */
+  .project-content {
+    padding: 0 var(--gutter);
+    max-width: var(--container-md);
+    margin: 0 auto var(--section-gap);
+  }
+
+  .project-content :global(h2) {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-regular);
+    letter-spacing: var(--tracking-tight);
+    margin-top: var(--space-16);
+    margin-bottom: var(--space-6);
+    color: var(--color-text-primary);
+  }
+
+  .project-content :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .project-content :global(p) {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+  }
+
+  .project-content :global(ul),
+  .project-content :global(ol) {
+    margin-bottom: var(--space-6);
+    padding-left: var(--space-6);
+  }
+
+  .project-content :global(li) {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2);
+  }
+
+  .project-content :global(ul li) {
+    list-style-type: disc;
+  }
+
+  .project-content :global(ol li) {
+    list-style-type: decimal;
+  }
+
+  .project-content :global(img) {
+    width: 100%;
+    height: auto;
+    margin: var(--space-10) 0;
+  }
+
+  /* Credits */
+  .project-credits {
+    padding: var(--space-16) var(--gutter);
+    border-top: 1px solid var(--color-border);
+    max-width: var(--container-md);
+    margin: 0 auto;
+  }
+
+  .credits-title {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+  }
+
+  .credits-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+  }
+
+  .credit-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .credit-role {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .credit-name {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-text-primary);
+  }
+
+  /* Navigation */
+  .project-nav {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .next-project {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-20) var(--gutter);
+    text-align: center;
+    transition: background-color var(--duration-normal) var(--ease-out);
+  }
+
+  .next-project:hover {
+    opacity: 1;
+    background-color: var(--color-bg-secondary);
+  }
+
+  .next-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  .next-title {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    font-weight: var(--font-regular);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-primary);
+  }
+
+  @media (max-width: 768px) {
+    .project-hero {
+      padding-top: var(--space-24);
+    }
+
+    .project-title {
+      font-size: var(--text-4xl);
+    }
+
+    .project-description {
+      font-size: var(--text-lg);
+    }
+
+    .next-title {
+      font-size: var(--text-2xl);
+    }
+  }
+</style>

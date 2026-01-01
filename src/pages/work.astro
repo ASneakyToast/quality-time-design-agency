@@ -1,0 +1,145 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProjectCard from '@/components/portfolio/ProjectCard.astro';
+
+// Get all non-draft projects, sorted by order then date
+const projects = await getCollection('projects', ({ data }) => !data.draft);
+const sortedProjects = projects.sort((a, b) => {
+  if (a.data.order !== undefined && b.data.order !== undefined) {
+    return a.data.order - b.data.order;
+  }
+  if (a.data.order !== undefined) return -1;
+  if (b.data.order !== undefined) return 1;
+  return b.data.publishedDate.getTime() - a.data.publishedDate.getTime();
+});
+---
+
+<BaseLayout
+  title="Work | Quality Time"
+  description="Selected projects and collaborations from Quality Time design collective."
+>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-label" data-animate>Our Work</span>
+      <h1 class="hero-title" data-animate style="--stagger: 1">
+        Selected projects<br />and collaborations
+      </h1>
+      <p class="hero-description" data-animate style="--stagger: 2">
+        A curated collection of branding, digital, and design systems work for clients across industries.
+      </p>
+    </div>
+  </section>
+
+  <!-- Project Grid -->
+  <section class="work-grid">
+    <div class="grid-container">
+      {sortedProjects.map((project, index) => (
+        <ProjectCard project={project} index={index} priority={index < 4} />
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ==========================================================================
+     Work Page Hero
+     ========================================================================== */
+  .hero {
+    padding: var(--space-32) var(--gutter) var(--space-20);
+    max-width: var(--container-xl);
+    margin: 0 auto;
+  }
+
+  .hero-content {
+    max-width: 800px;
+  }
+
+  .hero-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    font-weight: var(--font-regular);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-tighter);
+    margin-bottom: var(--space-6);
+  }
+
+  .hero-description {
+    font-size: var(--text-xl);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    max-width: 50ch;
+  }
+
+  /* ==========================================================================
+     Enhanced Project Grid
+     ========================================================================== */
+  .work-grid {
+    padding: 0 var(--gutter) var(--section-gap);
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-12) var(--space-8);
+    max-width: var(--container-xl);
+    margin: 0 auto;
+  }
+
+  /* Staggered grid for visual interest */
+  .grid-container > :global(:nth-child(2n)) {
+    margin-top: var(--space-16);
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding-top: var(--space-24);
+    }
+
+    .hero-title {
+      font-size: var(--text-4xl);
+    }
+
+    .grid-container {
+      grid-template-columns: 1fr;
+      gap: var(--space-12);
+    }
+
+    .grid-container > :global(:nth-child(2n)) {
+      margin-top: 0;
+    }
+  }
+</style>
+
+<script>
+  // Scroll-triggered reveal animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('[data-animate]').forEach((el) => {
+    observer.observe(el);
+  });
+</script>

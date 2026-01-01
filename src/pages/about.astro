@@ -1,0 +1,330 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const services = [
+  {
+    name: 'Branding',
+    description: 'Identity systems, visual language, brand strategy, and guidelines that tell your story with clarity and distinction.',
+  },
+  {
+    name: 'Web Design',
+    description: 'Thoughtful digital experiences that balance aesthetics with usability, from marketing sites to complex applications.',
+  },
+  {
+    name: 'Print & Packaging',
+    description: 'Tangible design that demands attention—from risograph prints to sustainable packaging solutions.',
+  },
+  {
+    name: 'Art Direction',
+    description: 'Creative direction for campaigns, photo shoots, and brand expressions that resonate and endure.',
+  },
+];
+
+const values = [
+  {
+    title: 'Craft Over Speed',
+    description: 'We believe in taking the time to do things right. Quality work requires patience, iteration, and attention to detail.',
+  },
+  {
+    title: 'Collaboration',
+    description: 'The best work happens together. We partner closely with our clients, treating every project as a shared endeavor.',
+  },
+  {
+    title: 'Systems Thinking',
+    description: 'Great design scales. We create flexible systems that grow with your brand while maintaining coherence and consistency.',
+  },
+];
+---
+
+<BaseLayout
+  title="About"
+  description="Quality Time is an interdisciplinary design collective based in San Francisco, specializing in branding and comprehensive design systems."
+>
+  <article class="about">
+    <!-- Collins-inspired Hero -->
+    <header class="about-hero">
+      <div class="about-hero-content">
+        <span class="hero-label" data-animate>About Us</span>
+        <h1 class="about-title" data-animate style="--stagger: 1">
+          We're an interdisciplinary
+          <br />
+          <em>design collective</em>
+        </h1>
+        <p class="about-intro" data-animate style="--stagger: 2">
+          Based in San Francisco, Quality Time brings together designers, strategists, and makers
+          to create work that matters. We specialize in branding and comprehensive design systems
+          through an iterative, human-centered approach.
+        </p>
+      </div>
+    </header>
+
+    <!-- Philosophy -->
+    <section class="about-section">
+      <div class="section-grid">
+        <div class="section-header">
+          <h2 class="section-label" data-animate>Our Approach</h2>
+        </div>
+        <div class="section-content">
+          <p class="section-text large" data-animate style="--stagger: 1">
+            We believe design should be intentional, not decorative. Every choice we make—from
+            typography to interaction patterns—serves a purpose. We work iteratively, testing
+            and refining until the solution feels inevitable.
+          </p>
+          <p class="section-text" data-animate style="--stagger: 2">
+            Our name reflects our philosophy: good work takes time. We're not interested in
+            trends or quick fixes. We're here to build lasting relationships and create
+            design systems that grow with you.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Values -->
+    <section class="about-section values-section">
+      <div class="section-grid">
+        <div class="section-header">
+          <h2 class="section-label" data-animate>What We Believe</h2>
+        </div>
+        <div class="section-content">
+          <ul class="values-list">
+            {values.map((value, index) => (
+              <li class="value-item" data-animate style={`--stagger: ${index}`}>
+                <span class="value-number">{String(index + 1).padStart(2, '0')}</span>
+                <h3 class="value-title">{value.title}</h3>
+                <p class="value-description">{value.description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="about-section services-section">
+      <div class="section-grid">
+        <div class="section-header">
+          <h2 class="section-label" data-animate>Services</h2>
+        </div>
+        <div class="section-content">
+          <ul class="services-list">
+            {services.map((service, index) => (
+              <li class="service-item" data-animate style={`--stagger: ${index}`}>
+                <h3 class="service-name">{service.name}</h3>
+                <p class="service-description">{service.description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .about {
+    padding-bottom: 0;
+  }
+
+  /* ==========================================================================
+     Collins-inspired Hero
+     ========================================================================== */
+  .about-hero {
+    padding: var(--space-32) var(--gutter) var(--section-gap);
+  }
+
+  .about-hero-content {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+  }
+
+  .hero-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .about-title {
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    font-weight: var(--font-regular);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-tighter);
+    margin-bottom: var(--space-8);
+  }
+
+  .about-title em {
+    font-style: italic;
+    color: var(--color-text-secondary);
+  }
+
+  .about-intro {
+    font-size: var(--text-xl);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    max-width: 55ch;
+  }
+
+  /* ==========================================================================
+     Sections
+     ========================================================================== */
+  .about-section {
+    padding: var(--section-gap-sm) var(--gutter);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .section-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-16);
+    max-width: var(--container-xl);
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    position: sticky;
+    top: var(--space-24);
+  }
+
+  .section-text {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+    max-width: 60ch;
+  }
+
+  .section-text.large {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    line-height: var(--leading-snug);
+    color: var(--color-text-primary);
+  }
+
+  /* ==========================================================================
+     Values with numbering
+     ========================================================================== */
+  .values-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .value-item {
+    max-width: 50ch;
+    position: relative;
+    padding-left: var(--space-12);
+  }
+
+  .value-number {
+    position: absolute;
+    left: 0;
+    top: 0.1em;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-accent);
+  }
+
+  .value-title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-regular);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-3);
+    color: var(--color-text-primary);
+  }
+
+  .value-description {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+  }
+
+  /* ==========================================================================
+     Services Grid
+     ========================================================================== */
+  .services-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-10) var(--space-12);
+  }
+
+  .service-item {
+    padding-bottom: var(--space-10);
+    border-bottom: 1px solid var(--color-border);
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+
+  .service-item:hover {
+    border-color: var(--color-accent);
+  }
+
+  .service-name {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: var(--font-regular);
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-3);
+    color: var(--color-text-primary);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .service-item:hover .service-name {
+    color: var(--color-accent);
+  }
+
+  .service-description {
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+  }
+
+  /* ==========================================================================
+     Responsive
+     ========================================================================== */
+  @media (max-width: 1024px) {
+    .section-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+
+    .section-label {
+      position: static;
+    }
+
+    .services-list {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .about-hero {
+      padding-top: var(--space-24);
+    }
+
+    .about-title {
+      font-size: var(--text-4xl);
+    }
+
+    .about-intro {
+      font-size: var(--text-lg);
+    }
+
+    .value-title {
+      font-size: var(--text-xl);
+    }
+  }
+</style>

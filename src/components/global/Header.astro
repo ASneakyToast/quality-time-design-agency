@@ -1,0 +1,104 @@
+---
+import LiveClock from './LiveClock.astro';
+import Navigation from './Navigation.astro';
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="header" data-header>
+  <div class="header-inner">
+    <a href="/" class="logo" aria-label="Quality Time - Home">
+      <span class="logo-text">Quality Time</span>
+    </a>
+
+    <div class="header-right">
+      <LiveClock />
+      <Navigation currentPath={currentPath} />
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: var(--space-5) var(--gutter);
+
+    /* Collins-style: start transparent */
+    background-color: transparent;
+
+    transition:
+      background-color var(--duration-normal) var(--ease-out),
+      backdrop-filter var(--duration-normal) var(--ease-out);
+  }
+
+  /* Scrolled state with blur backdrop (Collins-style) */
+  .header.is-scrolled {
+    background-color: var(--color-overlay-light);
+    backdrop-filter: var(--backdrop-blur-md);
+    -webkit-backdrop-filter: var(--backdrop-blur-md);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .header.is-scrolled {
+      background-color: var(--color-overlay-dark);
+    }
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: var(--container-max);
+    margin: 0 auto;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: transform var(--duration-fast) var(--ease-spring);
+  }
+
+  .logo:hover {
+    opacity: 1;
+    transform: translateX(-2px);
+  }
+
+  .logo-text {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: var(--font-regular);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-primary);
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  @media (max-width: 640px) {
+    .header-right {
+      gap: var(--space-5);
+    }
+  }
+</style>
+
+<script>
+  // Collins-style transparent-to-blur header on scroll
+  const header = document.querySelector('[data-header]');
+  const scrollThreshold = 100;
+
+  const updateScrollState = () => {
+    const scrolled = window.scrollY > scrollThreshold;
+    header?.classList.toggle('is-scrolled', scrolled);
+  };
+
+  window.addEventListener('scroll', updateScrollState, { passive: true });
+  updateScrollState();
+</script>

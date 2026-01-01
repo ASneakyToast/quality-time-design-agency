@@ -1,0 +1,57 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ProjectCard from './ProjectCard.astro';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+  columns?: 2 | 3;
+}
+
+const { projects, columns = 2 } = Astro.props;
+---
+
+<section class="grid-section">
+  <div class={`grid grid-${columns}`}>
+    {projects.map((project, index) => (
+      <ProjectCard
+        project={project}
+        index={index}
+        priority={index < 2}
+      />
+    ))}
+  </div>
+</section>
+
+<style>
+  .grid-section {
+    padding: 0 var(--gutter);
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--grid-gap-lg) var(--grid-gap);
+    max-width: var(--container-max);
+    margin: 0 auto;
+  }
+
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 1024px) {
+    .grid-3 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .grid-2,
+    .grid-3 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

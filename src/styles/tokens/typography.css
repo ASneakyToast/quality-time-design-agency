@@ -1,0 +1,97 @@
+/*
+ * Quality Time - Typography System
+ * Editorial contrast: Dramatic display + refined body
+ * Using Instrument Serif for headings (elegant, editorial)
+ * Using Satoshi for body (geometric, modern)
+ */
+
+/*
+ * Font faces - uncomment when font files are added to /public/fonts/
+ * Download from:
+ * - Instrument Serif: https://fonts.google.com/specimen/Instrument+Serif
+ * - Satoshi: https://www.fontshare.com/fonts/satoshi
+ */
+
+/*
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('/fonts/InstrumentSerif-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('/fonts/InstrumentSerif-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Variable.woff2') format('woff2');
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-VariableItalic.woff2') format('woff2');
+  font-weight: 300 900;
+  font-style: italic;
+  font-display: swap;
+}
+*/
+
+:root {
+  /* Font families */
+  --font-display: 'Instrument Serif', 'Times New Roman', Georgia, serif;
+  --font-body: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+  /* Font sizes - fluid with dramatic scale */
+  --text-xs: clamp(0.6875rem, 0.65rem + 0.2vw, 0.75rem);      /* 11-12px */
+  --text-sm: clamp(0.8125rem, 0.75rem + 0.3vw, 0.875rem);     /* 13-14px */
+  --text-base: clamp(0.9375rem, 0.875rem + 0.3vw, 1rem);      /* 15-16px */
+  --text-lg: clamp(1.0625rem, 1rem + 0.4vw, 1.125rem);        /* 17-18px */
+  --text-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);         /* 20-24px */
+  --text-2xl: clamp(1.5rem, 1.25rem + 1.25vw, 2rem);          /* 24-32px */
+  --text-3xl: clamp(2rem, 1.5rem + 2.5vw, 3rem);              /* 32-48px */
+  --text-4xl: clamp(2.5rem, 1.75rem + 3.75vw, 4rem);          /* 40-64px */
+  --text-5xl: clamp(3rem, 2rem + 5vw, 5.5rem);                /* 48-88px */
+  --text-6xl: clamp(4rem, 2.5rem + 7.5vw, 8rem);              /* 64-128px */
+
+  /* Hero-scale text for immersive moments (Collins-inspired) */
+  --text-hero: clamp(4.5rem, 3rem + 7.5vw, 9rem);             /* 72-144px */
+  --text-display: clamp(3.5rem, 2.5rem + 5vw, 7rem);          /* 56-112px */
+
+  /* Line heights */
+  --leading-none: 1;
+  --leading-hero: 0.92;
+  --leading-display: 0.98;
+  --leading-tight: 1.05;
+  --leading-snug: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+  --leading-loose: 1.85;
+
+  /* Letter spacing */
+  --tracking-tightest: -0.04em;
+  --tracking-tighter: -0.02em;
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+  --tracking-wider: 0.04em;
+  --tracking-widest: 0.08em;
+  --tracking-caps: 0.12em;
+
+  /* Font weights */
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+}

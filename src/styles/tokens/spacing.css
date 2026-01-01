@@ -1,0 +1,86 @@
+/*
+ * Quality Time - Spacing & Motion System
+ * Collins-inspired: generous whitespace, spring animations
+ */
+
+:root {
+  /* Base spacing scale (4px base) */
+  --space-0: 0;
+  --space-px: 1px;
+  --space-05: 0.125rem;  /* 2px */
+  --space-1: 0.25rem;     /* 4px */
+  --space-2: 0.5rem;      /* 8px */
+  --space-3: 0.75rem;     /* 12px */
+  --space-4: 1rem;        /* 16px */
+  --space-5: 1.25rem;     /* 20px */
+  --space-6: 1.5rem;      /* 24px */
+  --space-8: 2rem;        /* 32px */
+  --space-10: 2.5rem;     /* 40px */
+  --space-12: 3rem;       /* 48px */
+  --space-16: 4rem;       /* 64px */
+  --space-20: 5rem;       /* 80px */
+  --space-24: 6rem;       /* 96px */
+  --space-32: 8rem;       /* 128px */
+  --space-40: 10rem;      /* 160px */
+  --space-48: 12rem;      /* 192px */
+
+  /* Container - Collins uses 1244px max */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1244px;
+  --container-2xl: 1440px;
+  --container-max: 1800px;
+
+  /* Page gutter - generous on desktop */
+  --gutter: clamp(var(--space-5), 6vw, var(--space-16));
+
+  /* 10-column grid (Collins-style) */
+  --grid-columns: 10;
+  --grid-column-gap: clamp(var(--space-4), 2vw, var(--space-6));
+
+  /* Grid gap */
+  --grid-gap-sm: clamp(var(--space-3), 2vw, var(--space-4));
+  --grid-gap: clamp(var(--space-4), 3vw, var(--space-6));
+  --grid-gap-lg: clamp(var(--space-6), 4vw, var(--space-10));
+
+  /* Section spacing - dramatic */
+  --section-gap: clamp(var(--space-16), 12vw, var(--space-32));
+  --section-gap-sm: clamp(var(--space-10), 8vw, var(--space-20));
+
+  /* Hero viewport height (Collins-style immersive) */
+  --hero-height: 90svh;
+  --hero-min-height: 600px;
+
+  /* Footer padding (Collins uses 8rem) */
+  --footer-padding: var(--space-32);
+
+  /* Border radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px;
+
+  /* Transitions - durations */
+  --duration-micro: 100ms;
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --duration-slower: 600ms;
+  --duration-stagger: 80ms;
+
+  /* Easing - Collins-style springs */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-spring-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* Transform values */
+  --scale-hover: 1.04;
+  --scale-press: 0.98;
+  --perspective: 1200px;
+  --rotate-hover: 2deg;
+}

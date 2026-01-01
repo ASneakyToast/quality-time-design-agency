@@ -1,0 +1,361 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+}
+
+const { projects } = Astro.props;
+
+// Format services for display
+const serviceLabels: Record<string, string> = {
+  'branding': 'Branding',
+  'web-design': 'Web Design',
+  'ui-ux': 'UI/UX',
+  'print': 'Print',
+  'packaging': 'Packaging',
+  'illustration': 'Illustration',
+  'motion': 'Motion',
+  'photography': 'Photography',
+};
+---
+
+<section class="carousel-section">
+  <div class="carousel-container">
+    <div class="carousel-track" data-carousel>
+      {projects.map((project, index) => {
+        const { title, client, thumbnail, services, year } = project.data;
+        return (
+          <article class="carousel-slide" style={`--index: ${index}`}>
+            <a href={`/projects/${project.id}`} class="slide-link">
+              <div class="slide-image-wrapper">
+                <Image
+                  src={thumbnail}
+                  alt={`${title} project`}
+                  widths={[600, 900, 1200]}
+                  sizes="(max-width: 768px) 85vw, 70vw"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  class="slide-image"
+                />
+                <div class="slide-overlay">
+                  <span class="slide-view">
+                    <span>View Project</span>
+                    <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+
+              <div class="slide-content">
+                <div class="slide-meta">
+                  <span class="slide-client">{client}</span>
+                  <span class="slide-divider">·</span>
+                  <span class="slide-year">{year}</span>
+                </div>
+                <h3 class="slide-title">{title}</h3>
+                <div class="slide-services">
+                  {services.slice(0, 3).map((service, i) => (
+                    <span class="slide-service">
+                      {serviceLabels[service] || service}
+                      {i < Math.min(services.length, 3) - 1 && ', '}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </a>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="carousel-nav">
+    <button class="carousel-btn carousel-btn-prev" data-carousel-prev aria-label="Previous project">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+    </button>
+    <button class="carousel-btn carousel-btn-next" data-carousel-next aria-label="Next project">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </button>
+  </div>
+</section>
+
+<style>
+  /* ==========================================================================
+     Collins-inspired Horizontal Carousel
+     ========================================================================== */
+  .carousel-section {
+    position: relative;
+  }
+
+  .carousel-container {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .carousel-track {
+    display: flex;
+    gap: var(--space-8);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--gutter);
+    padding: 0 var(--gutter);
+    padding-bottom: var(--space-4);
+
+    /* Hide scrollbar but keep functionality */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carousel-slide {
+    flex: 0 0 auto;
+    width: clamp(320px, 70vw, 800px);
+    scroll-snap-align: start;
+  }
+
+  /* ==========================================================================
+     Slide Card with 3D Perspective
+     ========================================================================== */
+  .slide-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    perspective: var(--perspective);
+  }
+
+  .slide-link:hover {
+    opacity: 1;
+  }
+
+  .slide-image-wrapper {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: var(--color-bg-tertiary);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-6);
+    transform-style: preserve-3d;
+    transition: transform var(--duration-slow) var(--ease-spring);
+  }
+
+  .slide-link:hover .slide-image-wrapper {
+    transform: rotateX(-2deg) rotateY(2deg) translateY(-8px);
+  }
+
+  .slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-slow) var(--ease-spring);
+  }
+
+  .slide-link:hover .slide-image {
+    transform: scale(var(--scale-hover));
+  }
+
+  .slide-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-overlay-dark);
+    backdrop-filter: var(--backdrop-blur-sm);
+    -webkit-backdrop-filter: var(--backdrop-blur-sm);
+    opacity: 0;
+    transition: opacity var(--duration-normal) var(--ease-out);
+    border-radius: var(--radius-lg);
+  }
+
+  .slide-link:hover .slide-overlay {
+    opacity: 1;
+  }
+
+  .slide-view {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: white;
+    padding: var(--space-3) var(--space-6);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: var(--radius-full);
+    transform: translateY(8px);
+    transition: all var(--duration-normal) var(--ease-spring);
+  }
+
+  .slide-link:hover .slide-view {
+    transform: translateY(0);
+    gap: var(--space-4);
+  }
+
+  .arrow-icon {
+    transition: transform var(--duration-fast) var(--ease-spring);
+  }
+
+  .slide-link:hover .arrow-icon {
+    transform: translateX(4px);
+  }
+
+  /* ==========================================================================
+     Slide Content
+     ========================================================================== */
+  .slide-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: 0 var(--space-2);
+  }
+
+  .slide-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .slide-divider {
+    opacity: 0.4;
+  }
+
+  .slide-title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-regular);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  .slide-services {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  /* ==========================================================================
+     Navigation Buttons
+     ========================================================================== */
+  .carousel-nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    padding: var(--space-8) var(--gutter) 0;
+    max-width: var(--container-xl);
+    margin: 0 auto;
+  }
+
+  .carousel-btn {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-full);
+    color: var(--color-text-primary);
+    background: transparent;
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-spring);
+  }
+
+  .carousel-btn:hover {
+    background-color: var(--color-ink);
+    border-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .carousel-btn:active {
+    transform: scale(var(--scale-press));
+  }
+
+  .carousel-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .carousel-btn:disabled:hover {
+    background: transparent;
+    border-color: var(--color-border-strong);
+    color: var(--color-text-primary);
+  }
+
+  /* ==========================================================================
+     Responsive
+     ========================================================================== */
+  @media (max-width: 768px) {
+    .carousel-slide {
+      width: 85vw;
+    }
+
+    .slide-title {
+      font-size: var(--text-xl);
+    }
+
+    .carousel-nav {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .carousel-slide {
+      width: 90vw;
+    }
+  }
+</style>
+
+<script>
+  // Carousel navigation
+  const track = document.querySelector('[data-carousel]') as HTMLElement;
+  const prevBtn = document.querySelector('[data-carousel-prev]') as HTMLButtonElement;
+  const nextBtn = document.querySelector('[data-carousel-next]') as HTMLButtonElement;
+
+  if (track && prevBtn && nextBtn) {
+    const slides = track.querySelectorAll('.carousel-slide');
+    const slideWidth = slides[0]?.getBoundingClientRect().width || 0;
+    const gap = parseFloat(getComputedStyle(track).gap) || 32;
+
+    const scrollAmount = slideWidth + gap;
+
+    const updateButtons = () => {
+      const { scrollLeft, scrollWidth, clientWidth } = track;
+      prevBtn.disabled = scrollLeft <= 10;
+      nextBtn.disabled = scrollLeft >= scrollWidth - clientWidth - 10;
+    };
+
+    prevBtn.addEventListener('click', () => {
+      track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+
+    nextBtn.addEventListener('click', () => {
+      track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+
+    track.addEventListener('scroll', updateButtons, { passive: true });
+    updateButtons();
+
+    // Update on resize
+    window.addEventListener('resize', updateButtons, { passive: true });
+  }
+</script>
