@@ -1,0 +1,99 @@
+/*
+ * Collins-inspired View Transitions
+ * Smooth page transitions with persistent header/footer
+ */
+
+/* Custom easing matching Collins */
+:root {
+  --view-transition-easing: cubic-bezier(.5, .3, 0, 1);
+  --view-transition-duration: 0.45s;
+}
+
+/* Exit animation - slide up and fade out */
+@keyframes page-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-2rem);
+  }
+}
+
+/* Enter animation - slide up from below */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply to root transition */
+::view-transition-old(root) {
+  animation: page-exit 0.35s var(--view-transition-easing) forwards;
+}
+
+::view-transition-new(root) {
+  animation: page-enter 0.5s var(--view-transition-easing) forwards;
+  animation-delay: 0.1s;
+}
+
+/* Persistent elements - no animation */
+::view-transition-old(header),
+::view-transition-new(header),
+::view-transition-old(footer),
+::view-transition-new(footer) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Hero morphing transitions */
+::view-transition-group(page-hero) {
+  animation-duration: 0.5s;
+  animation-timing-function: var(--view-transition-easing);
+}
+
+/* Loading state */
+body.is-navigating {
+  cursor: progress;
+}
+
+body.is-navigating::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--color-accent);
+  animation: loading-bar 0.8s ease-out forwards;
+  z-index: 10000;
+}
+
+@keyframes loading-bar {
+  from {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  to {
+    transform: scaleX(0.9);
+    transform-origin: left;
+  }
+}
+
+/* Reduced motion - disable view transitions */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+
+  body.is-navigating::before {
+    animation: none;
+  }
+}

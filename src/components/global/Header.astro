@@ -5,7 +5,7 @@ import Navigation from './Navigation.astro';
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="header" data-header>
+<header class="header" data-header transition:persist transition:name="header">
   <div class="header-inner">
     <a href="/" class="logo" aria-label="Quality Time - Home">
       <span class="logo-blob" aria-hidden="true"></span>
@@ -70,7 +70,6 @@ const currentPath = Astro.url.pathname;
 
   .logo:hover {
     opacity: 1;
-    transform: translateX(-2px);
   }
 
   .logo-blob {
