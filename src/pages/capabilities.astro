@@ -1,0 +1,441 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const capabilities = [
+  {
+    name: 'Brand Strategy',
+    description: 'We help you define who you are and why it matters. Through research, workshops, and strategic thinking, we uncover the core truths that make your brand distinctive.',
+    services: ['Brand Positioning', 'Competitive Analysis', 'Audience Research', 'Brand Architecture', 'Naming & Verbal Identity'],
+  },
+  {
+    name: 'Visual Identity',
+    description: 'From logo to complete identity systems, we create the visual language that brings your brand to life. Every element designed to work together as a cohesive whole.',
+    services: ['Logo Design', 'Typography Systems', 'Color Palettes', 'Iconography', 'Brand Guidelines'],
+  },
+  {
+    name: 'Digital Experience',
+    description: 'Websites and applications that balance beauty with usability. We design digital products that feel intuitive and elevate your brand at every interaction.',
+    services: ['Web Design', 'UI/UX Design', 'Responsive Design', 'Design Systems', 'Prototyping'],
+  },
+  {
+    name: 'Print & Packaging',
+    description: 'Tangible design that creates lasting impressions. From business cards to product packaging, we bring craft and attention to every physical touchpoint.',
+    services: ['Publication Design', 'Packaging Design', 'Marketing Collateral', 'Environmental Graphics', 'Print Production'],
+  },
+  {
+    name: 'Art Direction',
+    description: 'Creative direction that shapes how your brand shows up in the world. We guide photography, illustration, and content to tell a cohesive visual story.',
+    services: ['Photo Art Direction', 'Campaign Development', 'Content Strategy', 'Illustration Direction', 'Style Guides'],
+  },
+  {
+    name: 'Motion & Animation',
+    description: 'Bringing brands to life through movement. From subtle UI animations to full motion graphics, we add dimension and energy to digital experiences.',
+    services: ['Motion Graphics', 'UI Animation', 'Video Production', 'Animated Logos', 'Social Content'],
+  },
+];
+
+const process = [
+  {
+    phase: 'Discovery',
+    description: 'We start by listening. Understanding your business, your audience, and your ambitions. This foundation shapes everything that follows.',
+  },
+  {
+    phase: 'Strategy',
+    description: 'Insights become direction. We define the positioning, personality, and principles that will guide creative decisions.',
+  },
+  {
+    phase: 'Create',
+    description: "Ideas take form. We explore, iterate, and refine until the work feels inevitable—like it couldn't have been any other way.",
+  },
+  {
+    phase: 'Deliver',
+    description: 'Launch is just the beginning. We hand off comprehensive systems and stay available to support your team as you grow.',
+  },
+];
+---
+
+<BaseLayout
+  title="Capabilities"
+  description="Full-service creative expertise spanning brand strategy to final production. Discover how Quality Time can help bring your vision to life."
+>
+  <article class="capabilities-page">
+    <!-- Hero -->
+    <header class="page-hero">
+      <div class="hero-content">
+        <span class="hero-label" data-animate>Capabilities</span>
+        <h1 class="page-title" data-animate style="--stagger: 1">
+          Everything you need
+          <br />
+          to build a <em>lasting brand</em>
+        </h1>
+        <p class="page-intro" data-animate style="--stagger: 2">
+          From initial strategy through final production, we offer full-service creative
+          expertise. Each project is tailored to your specific needs—we don't believe in
+          one-size-fits-all solutions.
+        </p>
+      </div>
+    </header>
+
+    <!-- Capabilities Grid -->
+    <section class="capabilities-section">
+      <div class="section-inner">
+        <ul class="capabilities-list">
+          {capabilities.map((capability, index) => (
+            <li class="capability-card" data-animate style={`--stagger: ${index}`}>
+              <div class="capability-header">
+                <span class="capability-number">{String(index + 1).padStart(2, '0')}</span>
+                <h2 class="capability-name">{capability.name}</h2>
+              </div>
+              <p class="capability-description">{capability.description}</p>
+              <ul class="capability-services">
+                {capability.services.map((service) => (
+                  <li class="service-tag">{service}</li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Process -->
+    <section class="process-section" data-bg="var(--color-ink)" data-bg-dark>
+      <div class="section-inner">
+        <header class="process-header">
+          <span class="section-label" data-animate>Our Process</span>
+          <h2 class="section-title" data-animate style="--stagger: 1">
+            How we work together
+          </h2>
+        </header>
+
+        <ol class="process-list">
+          {process.map((step, index) => (
+            <li class="process-step" data-animate style={`--stagger: ${index + 2}`}>
+              <span class="step-number">{String(index + 1).padStart(2, '0')}</span>
+              <h3 class="step-phase">{step.phase}</h3>
+              <p class="step-description">{step.description}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <div class="cta-inner">
+        <h2 class="cta-title" data-animate>Ready to start?</h2>
+        <p class="cta-text" data-animate style="--stagger: 1">
+          Every project begins with a conversation. Let's discuss your goals
+          and explore how we can help.
+        </p>
+        <a href="mailto:hello@qualitytime.design" class="cta-button" data-animate style="--stagger: 2">
+          Get in touch
+          <svg class="cta-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .capabilities-page {
+    padding-bottom: 0;
+  }
+
+  /* ==========================================================================
+     Hero
+     ========================================================================== */
+  .page-hero {
+    padding: var(--space-32) var(--gutter) var(--section-gap);
+  }
+
+  .hero-content {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+  }
+
+  .hero-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    font-weight: var(--font-regular);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-tighter);
+    margin-bottom: var(--space-8);
+  }
+
+  .page-title em {
+    font-style: italic;
+    color: var(--color-text-secondary);
+  }
+
+  .page-intro {
+    font-size: var(--text-xl);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    max-width: 55ch;
+  }
+
+  /* ==========================================================================
+     Capabilities Grid
+     ========================================================================== */
+  .capabilities-section {
+    padding: 0 var(--gutter) var(--section-gap);
+  }
+
+  .section-inner {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+  }
+
+  .capabilities-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-12);
+  }
+
+  .capability-card {
+    padding: var(--space-8);
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius-xl);
+    transition: transform var(--duration-fast) var(--ease-spring);
+  }
+
+  .capability-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .capability-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  .capability-number {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-accent);
+  }
+
+  .capability-name {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-regular);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-primary);
+  }
+
+  .capability-description {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+  }
+
+  .capability-services {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .service-tag {
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    padding: var(--space-1) var(--space-3);
+    background-color: var(--color-bg-tertiary);
+    border-radius: var(--radius-full);
+  }
+
+  /* ==========================================================================
+     Process Section
+     ========================================================================== */
+  .process-section {
+    padding: var(--section-gap) var(--gutter);
+  }
+
+  .process-header {
+    margin-bottom: var(--space-16);
+  }
+
+  .section-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: var(--text-4xl);
+    font-weight: var(--font-regular);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-primary);
+  }
+
+  .process-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-8);
+    counter-reset: process;
+  }
+
+  .process-step {
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .step-number {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-accent);
+    margin-bottom: var(--space-4);
+  }
+
+  .step-phase {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: var(--font-regular);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-3);
+  }
+
+  .step-description {
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+  }
+
+  /* ==========================================================================
+     CTA Section
+     ========================================================================== */
+  .cta-section {
+    padding: var(--section-gap) var(--gutter);
+    text-align: center;
+  }
+
+  .cta-inner {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .cta-title {
+    font-family: var(--font-display);
+    font-size: var(--text-4xl);
+    font-weight: var(--font-regular);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-4);
+  }
+
+  .cta-text {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-8);
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-paper);
+    background-color: var(--color-ink);
+    padding: var(--space-4) var(--space-8);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition:
+      gap var(--duration-fast) var(--ease-spring),
+      background-color var(--duration-fast) var(--ease-out);
+  }
+
+  .cta-button:hover {
+    opacity: 1;
+    gap: var(--space-4);
+    background-color: var(--color-accent);
+  }
+
+  .cta-arrow {
+    transition: transform var(--duration-fast) var(--ease-spring);
+  }
+
+  .cta-button:hover .cta-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Dark mode button */
+  :global([data-theme="dark"]) .cta-button {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  :global([data-theme="dark"]) .cta-button:hover {
+    background-color: var(--color-accent);
+    color: var(--color-paper);
+  }
+
+  /* ==========================================================================
+     Responsive
+     ========================================================================== */
+  @media (max-width: 1024px) {
+    .capabilities-list {
+      grid-template-columns: 1fr;
+    }
+
+    .process-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .page-hero {
+      padding-top: var(--space-24);
+    }
+
+    .page-title {
+      font-size: var(--text-4xl);
+    }
+
+    .page-intro {
+      font-size: var(--text-lg);
+    }
+
+    .process-list {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-title {
+      font-size: var(--text-3xl);
+    }
+  }
+</style>

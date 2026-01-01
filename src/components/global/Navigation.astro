@@ -7,7 +7,7 @@ const { currentPath } = Astro.props;
 
 const navItems = [
   { href: '/work', label: 'Work' },
-  { href: '/about', label: 'About' },
+  { href: '/team', label: 'Team' },
 ];
 
 const isActive = (href: string) => {
@@ -58,7 +58,11 @@ const isActive = (href: string) => {
     transition: color var(--duration-fast) var(--ease-out);
   }
 
-  .nav-link:hover,
+  .nav-link:hover {
+    opacity: 1;
+    color: var(--color-accent);
+  }
+
   .nav-link.active {
     opacity: 1;
     color: var(--color-text-primary);
@@ -76,7 +80,11 @@ const isActive = (href: string) => {
     transition: transform var(--duration-normal) var(--ease-out);
   }
 
-  .nav-link:hover .nav-link-line,
+  .nav-link:hover .nav-link-line {
+    transform: scaleX(1);
+    background-color: var(--color-accent);
+  }
+
   .nav-link.active .nav-link-line {
     transform: scaleX(1);
   }

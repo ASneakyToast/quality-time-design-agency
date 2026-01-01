@@ -27,28 +27,40 @@ const capabilities = [
 ];
 ---
 
-<section class="capabilities">
+<section class="capabilities" data-bg="var(--color-paper)">
   <div class="capabilities-inner">
     <header class="capabilities-header">
-      <span class="section-label" data-animate>What We Do</span>
-      <h2 class="section-title" data-animate style="--stagger: 1">Capabilities</h2>
+      <span class="section-label" data-animate>Capabilities</span>
+      <p class="section-description" data-animate style="--stagger: 1">
+        Full-service creative expertise spanning brand strategy to final production. We craft cohesive experiences across every touchpoint.
+      </p>
+      <a href="/capabilities" class="section-cta" data-animate style="--stagger: 2">
+        Explore our capabilities
+        <svg class="cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
     </header>
 
-    <ul class="capabilities-grid">
-      {capabilities.map((capability, index) => (
-        <li class="capability-item" data-animate style={`--stagger: ${index + 2}`}>
-          <h3 class="capability-name">{capability.name}</h3>
-          <p class="capability-description">{capability.description}</p>
-        </li>
-      ))}
-    </ul>
+    <div class="capabilities-grid-wrapper">
+      <!-- Floating highlight blob -->
+      <div class="highlight-blob" aria-hidden="true"></div>
+
+      <ul class="capabilities-grid">
+        {capabilities.map((capability, index) => (
+          <li class="capability-item" data-animate data-capability-index={index} style={`--stagger: ${index + 2}`}>
+            <h3 class="capability-name">{capability.name}</h3>
+            <p class="capability-description">{capability.description}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
 </section>
 
 <style>
   .capabilities {
     padding: var(--section-gap) var(--gutter);
-    background-color: var(--color-bg-secondary);
   }
 
   .capabilities-inner {
@@ -57,7 +69,7 @@ const capabilities = [
   }
 
   .capabilities-header {
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-16);
   }
 
   .section-label {
@@ -68,16 +80,109 @@ const capabilities = [
     letter-spacing: var(--tracking-caps);
     text-transform: uppercase;
     color: var(--color-text-muted);
-    margin-bottom: var(--space-3);
+    margin-bottom: var(--space-4);
   }
 
-  .section-title {
+  .section-description {
     font-family: var(--font-display);
-    font-size: var(--text-display);
+    font-size: var(--text-2xl);
     font-weight: var(--font-regular);
-    line-height: var(--leading-display);
-    letter-spacing: var(--tracking-tighter);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
     color: var(--color-text-primary);
+    max-width: 680px;
+    margin: 0 0 var(--space-6);
+  }
+
+  .section-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-paper);
+    background-color: var(--color-ink);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition:
+      gap 0.4s cubic-bezier(0.25, 0.1, 0.25, 1),
+      background-color 0.35s ease-out;
+  }
+
+  .section-cta:hover {
+    opacity: 1;
+    gap: var(--space-4);
+    background-color: var(--color-accent);
+  }
+
+  .cta-arrow {
+    transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .section-cta:hover .cta-arrow {
+    transform: translateX(4px);
+  }
+
+  .capabilities-grid-wrapper {
+    position: relative;
+  }
+
+  /* Floating highlight blob - soft ambient glow */
+  .highlight-blob {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      ellipse 350px 250px at center,
+      rgba(255, 118, 0, 0.18) 0%,
+      rgba(255, 118, 0, 0.08) 40%,
+      transparent 70%
+    );
+    filter: blur(20px);
+    z-index: 0;
+    will-change: transform, opacity;
+    /* Start off-screen to the left */
+    transform: translate(-200px, 0);
+  }
+
+  .highlight-blob.is-active {
+    opacity: 1;
+    animation: blobFloat 6s ease-in-out infinite;
+    transition:
+      opacity 0.8s var(--ease-out),
+      transform 1.2s var(--ease-spring-soft);
+  }
+
+  /* When moving between items (not initial entrance) */
+  .highlight-blob.has-moved {
+    transition:
+      opacity 0.6s var(--ease-out),
+      transform 1s var(--ease-out);
+  }
+
+  @keyframes blobFloat {
+    0%, 100% {
+      filter: blur(20px);
+      scale: 1;
+    }
+    25% {
+      filter: blur(24px);
+      scale: 1.05 0.98;
+    }
+    50% {
+      filter: blur(18px);
+      scale: 0.97 1.04;
+    }
+    75% {
+      filter: blur(22px);
+      scale: 1.03 0.99;
+    }
   }
 
   .capabilities-grid {
@@ -132,3 +237,92 @@ const capabilities = [
     }
   }
 </style>
+
+<script>
+  // Capabilities highlight with floating blob effect
+  const initCapabilitiesHighlight = () => {
+    const section = document.querySelector('.capabilities');
+    const wrapper = document.querySelector('.capabilities-grid-wrapper');
+    const items = document.querySelectorAll('.capability-item');
+    const blob = document.querySelector('.highlight-blob') as HTMLElement;
+    let userHasInteracted = false;
+    let currentItem: Element | null = null;
+
+    if (!section || !wrapper || !blob || items.length === 0) return;
+
+    let hasAnimatedIn = false;
+
+    // Move blob to center on an item
+    const moveBlobTo = (item: Element) => {
+      const wrapperRect = wrapper.getBoundingClientRect();
+      const itemRect = item.getBoundingClientRect();
+
+      // Calculate center of item relative to wrapper
+      const x = itemRect.left - wrapperRect.left + itemRect.width / 2;
+      const y = itemRect.top - wrapperRect.top + itemRect.height / 2;
+
+      blob.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+      blob.classList.add('is-active');
+      currentItem = item;
+
+      // After initial entrance animation, switch to faster movement
+      if (!hasAnimatedIn) {
+        hasAnimatedIn = true;
+        setTimeout(() => {
+          blob.classList.add('has-moved');
+        }, 1200); // Match the initial entrance duration
+      }
+    };
+
+    // Auto-highlight first item on scroll into view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !userHasInteracted) {
+          // Small delay to let the section animate in first
+          setTimeout(() => {
+            if (!userHasInteracted && items[0]) {
+              moveBlobTo(items[0]);
+            }
+          }, 600);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    observer.observe(section);
+
+    // Transfer highlight on hover - user takes over
+    items.forEach((item) => {
+      item.addEventListener('mouseenter', () => {
+        userHasInteracted = true;
+        moveBlobTo(item);
+      });
+
+      item.addEventListener('mouseleave', () => {
+        // Keep blob visible but don't move it
+      });
+    });
+
+    // Hide blob when leaving the grid entirely
+    wrapper.addEventListener('mouseleave', () => {
+      if (userHasInteracted) {
+        blob.classList.remove('is-active');
+        currentItem = null;
+      }
+    });
+
+    // Re-show blob when entering grid
+    wrapper.addEventListener('mouseenter', () => {
+      // Blob will be shown when hovering an item
+    });
+  };
+
+  // Initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCapabilitiesHighlight);
+  } else {
+    initCapabilitiesHighlight();
+  }
+
+  // Astro view transitions support
+  document.addEventListener('astro:page-load', initCapabilitiesHighlight);
+</script>

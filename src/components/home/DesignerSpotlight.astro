@@ -19,11 +19,19 @@ for (const designer of sortedDesigners) {
 }
 ---
 
-<section class="designers">
+<section class="designers" data-bg="var(--color-ink)" data-bg-dark>
   <div class="designers-inner">
     <header class="designers-header">
       <span class="section-label" data-animate>The Team</span>
-      <h2 class="section-title" data-animate style="--stagger: 1">Meet Our Designers</h2>
+      <p class="section-description" data-animate style="--stagger: 1">
+        Independent thinkers and collaborative makers. The people behind the pixels and the craft behind the concepts.
+      </p>
+      <a href="/team" class="section-cta" data-animate style="--stagger: 2">
+        Meet the team
+        <svg class="cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
     </header>
 
     <div class="designers-grid">
@@ -90,7 +98,7 @@ for (const designer of sortedDesigners) {
   }
 
   .designers-header {
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-16);
   }
 
   .section-label {
@@ -101,16 +109,46 @@ for (const designer of sortedDesigners) {
     letter-spacing: var(--tracking-caps);
     text-transform: uppercase;
     color: var(--color-text-muted);
-    margin-bottom: var(--space-3);
+    margin-bottom: var(--space-4);
   }
 
-  .section-title {
+  .section-description {
     font-family: var(--font-display);
-    font-size: var(--text-display);
+    font-size: var(--text-2xl);
     font-weight: var(--font-regular);
-    line-height: var(--leading-display);
-    letter-spacing: var(--tracking-tighter);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
     color: var(--color-text-primary);
+    max-width: 680px;
+    margin: 0 0 var(--space-6);
+  }
+
+  .section-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: gap var(--duration-fast) var(--ease-spring);
+  }
+
+  .section-cta:hover {
+    opacity: 1;
+    gap: var(--space-3);
+    color: var(--color-accent);
+  }
+
+  .cta-arrow {
+    transition: transform var(--duration-fast) var(--ease-spring);
+  }
+
+  .section-cta:hover .cta-arrow {
+    transform: translateX(4px);
   }
 
   .designers-grid {

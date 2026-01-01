@@ -8,6 +8,7 @@ const currentPath = Astro.url.pathname;
 <header class="header" data-header>
   <div class="header-inner">
     <a href="/" class="logo" aria-label="Quality Time - Home">
+      <span class="logo-blob" aria-hidden="true"></span>
       <span class="logo-text">Quality Time</span>
     </a>
 
@@ -30,22 +31,24 @@ const currentPath = Astro.url.pathname;
     /* Collins-style: start transparent */
     background-color: transparent;
 
+    /* Dynamic overlay that adapts to scroll theme */
+    --header-overlay: var(--color-overlay-light);
+
     transition:
       background-color var(--duration-normal) var(--ease-out),
       backdrop-filter var(--duration-normal) var(--ease-out);
   }
 
-  /* Scrolled state with blur backdrop (Collins-style) */
-  .header.is-scrolled {
-    background-color: var(--color-overlay-light);
-    backdrop-filter: var(--backdrop-blur-md);
-    -webkit-backdrop-filter: var(--backdrop-blur-md);
+  /* When body is in dark theme, use dark overlay */
+  :global(body[data-theme="dark"]) .header {
+    --header-overlay: var(--color-overlay-dark);
   }
 
-  @media (prefers-color-scheme: dark) {
-    .header.is-scrolled {
-      background-color: var(--color-overlay-dark);
-    }
+  /* Scrolled state with blur backdrop (Collins-style) */
+  .header.is-scrolled {
+    background-color: var(--header-overlay);
+    backdrop-filter: var(--backdrop-blur-md);
+    -webkit-backdrop-filter: var(--backdrop-blur-md);
   }
 
   .header-inner {
@@ -57,6 +60,7 @@ const currentPath = Astro.url.pathname;
   }
 
   .logo {
+    position: relative;
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -66,6 +70,26 @@ const currentPath = Astro.url.pathname;
   .logo:hover {
     opacity: 1;
     transform: translateX(-2px);
+  }
+
+  .logo-blob {
+    position: absolute;
+    inset: -20px -30px;
+    background: radial-gradient(
+      ellipse 100% 80% at center,
+      rgba(255, 118, 0, 0.15) 0%,
+      rgba(255, 118, 0, 0.05) 50%,
+      transparent 80%
+    );
+    filter: blur(12px);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .logo:hover .logo-blob {
+    opacity: 1;
   }
 
   .logo-text {

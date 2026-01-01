@@ -1,0 +1,406 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+  maxItems?: number;
+}
+
+const { projects, maxItems = 4 } = Astro.props;
+
+// Limit to specified max, ensure within 2-5 range
+const displayProjects = projects.slice(0, Math.min(Math.max(maxItems, 2), 5));
+
+const serviceLabels: Record<string, string> = {
+  'branding': 'Branding',
+  'web-design': 'Web Design',
+  'ui-ux': 'UI/UX',
+  'print': 'Print',
+  'packaging': 'Packaging',
+  'illustration': 'Illustration',
+  'motion': 'Motion',
+  'photography': 'Photography',
+};
+---
+
+<section class="tableau" data-bg="var(--color-ink)" data-bg-dark>
+  <div class="tableau-header-wrap">
+    <div class="tableau-header-inner">
+      <header class="tableau-header">
+        <span class="section-label" data-animate>Selected Work</span>
+        <p class="section-description" data-animate style="--stagger: 1">
+          A curated selection of projects where strategy meets craft. Each one a testament to what thoughtful design can achieve.
+        </p>
+        <a href="/projects" class="section-cta" data-animate style="--stagger: 2">
+          View all projects
+          <svg class="cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </header>
+    </div>
+  </div>
+
+  <div class="tableau-stack">
+    {displayProjects.map((project, index) => {
+      const { title, client, heroImage, thumbnail, services, year, accentColor } = project.data;
+      const isReversed = index % 2 === 1;
+      return (
+        <article
+          class:list={["tableau-item", { "tableau-item--reversed": isReversed }]}
+          data-animate
+          style={`--stagger: ${index + 2}; --accent: ${accentColor || 'var(--color-ink)'}`}
+        >
+          <a href={`/projects/${project.id}`} class="tableau-link">
+            <div class="tableau-info">
+              <div class="tableau-info-inner">
+                <div class="tableau-meta">
+                  <span class="tableau-client">{client}</span>
+                  <span class="tableau-divider">/</span>
+                  <span class="tableau-year">{year}</span>
+                </div>
+                <h3 class="tableau-title">{title}</h3>
+                <p class="tableau-services">
+                  {services.map((s) => serviceLabels[s] || s).join(' / ')}
+                </p>
+                <span class="tableau-cta">
+                  View Project
+                  <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+            <div class="tableau-media">
+              <Image
+                src={heroImage || thumbnail}
+                alt={`${title} - ${client}`}
+                widths={[800, 1200, 1600, 2000]}
+                sizes="50vw"
+                loading={index === 0 ? 'eager' : 'lazy'}
+                class="tableau-image"
+              />
+            </div>
+          </a>
+        </article>
+      );
+    })}
+  </div>
+</section>
+
+<style>
+  .tableau {
+    padding: var(--section-gap) 0;
+  }
+
+  /* Header wrap: applies gutter padding like other sections */
+  .tableau-header-wrap {
+    padding: 0 var(--gutter);
+  }
+
+  /* Header inner: max-width container, centered */
+  .tableau-header-inner {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+  }
+
+  .tableau-header {
+    margin-bottom: var(--space-16);
+  }
+
+  .section-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .section-description {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-regular);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-primary);
+    max-width: 680px;
+    margin: 0 0 var(--space-6);
+  }
+
+  .section-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-ink);
+    background-color: var(--color-paper);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition:
+      gap 0.4s cubic-bezier(0.25, 0.1, 0.25, 1),
+      background-color 0.35s ease-out,
+      color 0.35s ease-out;
+  }
+
+  .section-cta:hover {
+    opacity: 1;
+    gap: var(--space-4);
+    background-color: var(--color-accent);
+    color: var(--color-paper);
+  }
+
+  .cta-arrow {
+    transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .section-cta:hover .cta-arrow {
+    transform: translateX(4px);
+  }
+
+
+  /* Stacked layout - full width, no padding */
+  .tableau-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .tableau-item {
+    width: 100%;
+  }
+
+  /* Collins-style scroll reveal for tableau items */
+  .tableau-item .tableau-info {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+  }
+
+  .tableau-item .tableau-media {
+    opacity: 0;
+    transform: translateY(80px);
+    transition: opacity 1s var(--ease-out) 0.15s, transform 1s var(--ease-out) 0.15s;
+  }
+
+  .tableau-item.is-visible .tableau-info {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .tableau-item.is-visible .tableau-media {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Reversed items animate from opposite direction */
+  .tableau-item--reversed .tableau-info {
+    transform: translateY(60px);
+  }
+
+  .tableau-item--reversed .tableau-media {
+    transform: translateY(80px);
+  }
+
+  .tableau-link {
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+    color: inherit;
+    min-height: clamp(50vh, 70vh, 80vh);
+  }
+
+  .tableau-link:hover {
+    opacity: 1;
+  }
+
+  /* Info panel - left side by default */
+  .tableau-info {
+    flex: 0 0 50%;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-12);
+    background-color: transparent;
+  }
+
+  /* Media panel - right side by default */
+  .tableau-media {
+    flex: 0 0 50%;
+    width: 50%;
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .tableau-info-inner {
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .tableau-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .tableau-divider {
+    opacity: 0.4;
+  }
+
+  .tableau-title {
+    font-family: var(--font-display);
+    font-size: var(--text-5xl);
+    font-weight: var(--font-regular);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tighter);
+    color: var(--color-text-primary);
+    margin: 0;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .tableau-link:hover .tableau-title {
+    color: var(--color-accent);
+  }
+
+  .tableau-services {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: var(--font-light);
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .tableau-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-primary);
+    margin-top: var(--space-4);
+    text-decoration: none;
+    transition:
+      gap var(--duration-fast) var(--ease-spring),
+      color var(--duration-fast) var(--ease-out);
+  }
+
+  .tableau-link:hover .tableau-cta {
+    gap: var(--space-3);
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .arrow-icon {
+    transition: transform var(--duration-fast) var(--ease-spring);
+  }
+
+  .tableau-link:hover .arrow-icon {
+    transform: translateX(4px);
+  }
+
+  .tableau-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-slower) var(--ease-spring);
+  }
+
+  .tableau-link:hover .tableau-image {
+    transform: scale(1.02);
+  }
+
+  /* Reversed layout - swap columns */
+  .tableau-item--reversed .tableau-info {
+    order: 2;
+  }
+
+  .tableau-item--reversed .tableau-media {
+    order: 1;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .tableau-title {
+      font-size: var(--text-4xl);
+    }
+
+    .tableau-info {
+      padding: var(--space-8);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .tableau-link {
+      flex-direction: column;
+      min-height: auto;
+    }
+
+    .tableau-info,
+    .tableau-media {
+      flex: none;
+      width: 100%;
+    }
+
+    .tableau-media {
+      aspect-ratio: 4 / 3;
+      order: -1;
+    }
+
+    .tableau-item--reversed .tableau-info,
+    .tableau-item--reversed .tableau-media {
+      order: unset;
+    }
+
+    .tableau-item--reversed .tableau-media {
+      order: -1;
+    }
+
+    .tableau-info {
+      padding: var(--space-8) var(--gutter);
+    }
+
+    .tableau-info-inner {
+      max-width: none;
+    }
+
+    .tableau-title {
+      font-size: var(--text-3xl);
+    }
+
+    .section-title {
+      max-width: none;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .tableau-item .tableau-info,
+    .tableau-item .tableau-media {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>

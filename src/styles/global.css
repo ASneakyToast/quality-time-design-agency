@@ -33,6 +33,28 @@ body {
   background-color: var(--color-bg-primary);
   min-height: 100vh;
   overflow-x: hidden;
+  transition: background-color 1.4s var(--ease-out),
+              color 1.4s var(--ease-out);
+}
+
+/* Dark theme for scroll-triggered sections */
+body[data-theme="dark"] {
+  --color-text-primary: var(--color-paper);
+  --color-text-secondary: var(--color-cream);
+  --color-text-muted: var(--color-stone);
+  --color-border: rgba(255, 255, 255, 0.15);
+  --color-border-strong: rgba(255, 255, 255, 0.25);
+}
+
+/* Smooth color transitions for theme changes - apply to key elements */
+h1, h2, h3, h4, h5, h6, p, span, a, li, label {
+  transition: color 0.8s var(--ease-out);
+}
+
+/* Elements that need background transitions during theme changes */
+header, footer, section, nav, div {
+  transition: background-color 0.8s var(--ease-out),
+              border-color 0.8s var(--ease-out);
 }
 
 /* Typography */

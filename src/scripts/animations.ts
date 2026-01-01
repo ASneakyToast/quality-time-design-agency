@@ -21,9 +21,15 @@ class ScrollReveal {
 
   private handleIntersection(entries: IntersectionObserverEntry[]) {
     entries.forEach((entry) => {
+      // Collins-style: toggle visibility on scroll in/out
       if (entry.isIntersecting) {
         entry.target.classList.add('is-visible');
-        this.observer.unobserve(entry.target);
+      } else {
+        // Only remove if element has data-animate-repeat attribute or is a tableau item
+        if (entry.target.hasAttribute('data-animate-repeat') ||
+            entry.target.classList.contains('tableau-item')) {
+          entry.target.classList.remove('is-visible');
+        }
       }
     });
   }
@@ -40,9 +46,10 @@ class ScrollReveal {
         setTimeout(() => {
           el.classList.add('is-visible');
         }, 50);
-      } else {
-        this.observer.observe(el);
       }
+
+      // Always observe - for repeating animations and initial trigger
+      this.observer.observe(el);
     });
   }
 
