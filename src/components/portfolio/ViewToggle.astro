@@ -1,0 +1,187 @@
+---
+interface Props {
+  activeView?: 'shelf' | 'spines';
+}
+
+const { activeView = 'spines' } = Astro.props;
+---
+
+<div class="view-toggle" data-books-toggle>
+  <button
+    type="button"
+    class="toggle-option"
+    data-view="shelf"
+    aria-pressed={activeView === 'shelf' ? 'true' : 'false'}
+  >
+    <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="1" y="1" width="6" height="6" rx="1" />
+      <rect x="9" y="1" width="6" height="6" rx="1" />
+      <rect x="1" y="9" width="6" height="6" rx="1" />
+      <rect x="9" y="9" width="6" height="6" rx="1" />
+    </svg>
+    <span>Shelf</span>
+  </button>
+  <button
+    type="button"
+    class="toggle-option"
+    data-view="spines"
+    aria-pressed={activeView === 'spines' ? 'true' : 'false'}
+  >
+    <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <line x1="1" y1="3" x2="15" y2="3" />
+      <line x1="1" y1="8" x2="15" y2="8" />
+      <line x1="1" y1="13" x2="15" y2="13" />
+    </svg>
+    <span>Spines</span>
+  </button>
+  <div class="toggle-indicator" data-indicator></div>
+</div>
+
+<style>
+  .view-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    padding: 4px;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .toggle-option {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: color var(--duration-fast) var(--ease-out);
+    white-space: nowrap;
+  }
+
+  .toggle-option:hover {
+    color: var(--color-text-primary);
+  }
+
+  .toggle-option[aria-pressed="true"] {
+    color: var(--color-text-primary);
+  }
+
+  .toggle-icon {
+    flex-shrink: 0;
+  }
+
+  .toggle-indicator {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    height: calc(100% - 8px);
+    background: var(--color-bg-primary);
+    border-radius: var(--radius-full);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform var(--duration-normal) var(--ease-spring),
+                width var(--duration-normal) var(--ease-spring);
+    pointer-events: none;
+  }
+
+  /* Focus styles */
+  .toggle-option:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 640px) {
+    .toggle-option span {
+      display: none;
+    }
+
+    .toggle-option {
+      padding: var(--space-2) var(--space-3);
+    }
+  }
+</style>
+
+<script>
+  function initBooksToggle() {
+    const toggle = document.querySelector('[data-books-toggle]');
+    if (!toggle) return;
+
+    const buttons = toggle.querySelectorAll('.toggle-option') as NodeListOf<HTMLButtonElement>;
+    const indicator = toggle.querySelector('[data-indicator]') as HTMLElement;
+    const shelfContainer = document.querySelector('[data-books-container="shelf"]');
+    const spinesContainer = document.querySelector('[data-books-container="spines"]');
+
+    function updateIndicator(activeButton: HTMLButtonElement) {
+      if (!indicator) return;
+      const rect = activeButton.getBoundingClientRect();
+      const toggleRect = toggle.getBoundingClientRect();
+      const offsetLeft = rect.left - toggleRect.left - 4; // account for padding
+      indicator.style.width = `${rect.width}px`;
+      indicator.style.transform = `translateX(${offsetLeft}px)`;
+    }
+
+    function setView(view: 'shelf' | 'spines') {
+      buttons.forEach(btn => {
+        const isActive = btn.dataset.view === view;
+        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        if (isActive) {
+          updateIndicator(btn);
+        }
+      });
+
+      // Toggle containers
+      if (shelfContainer && spinesContainer) {
+        if (view === 'shelf') {
+          shelfContainer.removeAttribute('hidden');
+          spinesContainer.setAttribute('hidden', '');
+        } else {
+          shelfContainer.setAttribute('hidden', '');
+          spinesContainer.removeAttribute('hidden');
+        }
+      }
+    }
+
+    // Set initial state based on aria-pressed
+    const activeButton = toggle.querySelector('[aria-pressed="true"]') as HTMLButtonElement;
+    if (activeButton) {
+      updateIndicator(activeButton);
+    }
+
+    // Add click handlers
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const view = btn.dataset.view as 'shelf' | 'spines';
+        setView(view);
+      });
+    });
+
+    // Keyboard navigation
+    toggle.addEventListener('keydown', (e) => {
+      const event = e as KeyboardEvent;
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        event.preventDefault();
+        const currentView = (toggle.querySelector('[aria-pressed="true"]') as HTMLButtonElement)?.dataset.view;
+        const newView = currentView === 'shelf' ? 'spines' : 'shelf';
+        setView(newView as 'shelf' | 'spines');
+        (toggle.querySelector(`[data-view="${newView}"]`) as HTMLButtonElement)?.focus();
+      }
+    });
+  }
+
+  // Initialize
+  initBooksToggle();
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initBooksToggle);
+</script>

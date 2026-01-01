@@ -26,6 +26,7 @@ const projectsCollection = defineCollection({
       featured: z.boolean().default(false),
       order: z.number().optional(),
       accentColor: z.string().optional(),
+      clientLogo: image().optional(),
       description: z.string().max(200),
       publishedDate: z.coerce.date(),
       liveUrl: z.string().url().optional(),
@@ -37,8 +38,9 @@ const projectsCollection = defineCollection({
           })
         )
         .optional(),
-      designer: z.string().optional(),
+      designer: z.union([z.string(), z.array(z.string())]).optional(),
       draft: z.boolean().default(false),
+      category: z.enum(['branding', 'book']).default('branding'),
     }),
 });
 

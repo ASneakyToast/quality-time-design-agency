@@ -9,19 +9,7 @@ interface Props {
 }
 
 const { project, index = 0, priority = false } = Astro.props;
-const { title, client, thumbnail, services, year } = project.data;
-
-// Format services for display
-const serviceLabels: Record<string, string> = {
-  'branding': 'Branding',
-  'web-design': 'Web Design',
-  'ui-ux': 'UI/UX',
-  'print': 'Print',
-  'packaging': 'Packaging',
-  'illustration': 'Illustration',
-  'motion': 'Motion',
-  'photography': 'Photography',
-};
+const { title, thumbnail } = project.data;
 ---
 
 <article class="card" style={`--index: ${index}`} data-animate style={`--stagger: ${index}`}>
@@ -46,20 +34,7 @@ const serviceLabels: Record<string, string> = {
     </div>
 
     <div class="card-content">
-      <div class="card-meta">
-        <span class="card-client">{client}</span>
-        <span class="card-divider">·</span>
-        <span class="card-year">{year}</span>
-      </div>
       <h3 class="card-title">{title}</h3>
-      <div class="card-services">
-        {services.slice(0, 3).map((service, i) => (
-          <span class="card-service">
-            {serviceLabels[service] || service}
-            {i < Math.min(services.length, 3) - 1 && ', '}
-          </span>
-        ))}
-      </div>
     </div>
   </a>
 </article>
@@ -170,21 +145,6 @@ const serviceLabels: Record<string, string> = {
     gap: var(--space-2);
   }
 
-  .card-meta {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: var(--text-xs);
-    font-weight: var(--font-medium);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-  }
-
-  .card-divider {
-    opacity: 0.4;
-  }
-
   .card-title {
     font-family: var(--font-display);
     font-size: var(--text-2xl);
@@ -198,18 +158,6 @@ const serviceLabels: Record<string, string> = {
 
   .card-link:hover .card-title {
     color: var(--color-accent);
-  }
-
-  .card-services {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-1);
-    margin-top: var(--space-1);
-  }
-
-  .card-service {
-    font-size: var(--text-sm);
-    color: var(--color-text-secondary);
   }
 
   /* ==========================================================================

@@ -5,18 +5,13 @@ import Capabilities from '@/components/home/Capabilities.astro';
 import TableauGallery from '@/components/home/TableauGallery.astro';
 import DesignerCarousel from '@/components/home/DesignerCarousel.astro';
 
-// Get client projects only (not self-initiated) for the Tableau
+// Get client projects only (not self-initiated) for the Tableau, sorted by date
 const clientProjects = await getCollection('projects', ({ data }) =>
   !data.draft && data.client !== 'Self-initiated'
 );
-const sortedClientProjects = clientProjects.sort((a, b) => {
-  if (a.data.order !== undefined && b.data.order !== undefined) {
-    return a.data.order - b.data.order;
-  }
-  if (a.data.order !== undefined) return -1;
-  if (b.data.order !== undefined) return 1;
-  return b.data.publishedDate.getTime() - a.data.publishedDate.getTime();
-});
+const sortedClientProjects = clientProjects.sort((a, b) =>
+  b.data.publishedDate.getTime() - a.data.publishedDate.getTime()
+);
 ---
 
 <BaseLayout>

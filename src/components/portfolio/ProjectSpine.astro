@@ -1,0 +1,209 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  index?: number;
+  designerMap?: Map<string, string>;
+}
+
+const { project, index = 0, designerMap } = Astro.props;
+const { title, client, accentColor, designer, clientLogo } = project.data;
+
+// For self-initiated projects, show the designer name(s)
+// For client projects with a logo, we'll display the logo
+// Otherwise show the client name as text
+const isSelfInitiated = client === 'Self-initiated';
+
+// Handle both single designer string and array of designers
+function getDesignerNames(): string {
+  if (!designer || !designerMap) return client;
+
+  if (Array.isArray(designer)) {
+    const names = designer
+      .map(d => designerMap.get(d))
+      .filter(Boolean);
+    return names.length > 0 ? names.join(', ') : client;
+  }
+
+  return designerMap.get(designer) || client;
+}
+
+const displayText = isSelfInitiated ? getDesignerNames() : client;
+
+// Calculate text color based on background luminance
+function getContrastColor(hex: string): string {
+  if (!hex) return '#ffffff';
+  const color = hex.replace('#', '');
+  const r = parseInt(color.slice(0, 2), 16);
+  const g = parseInt(color.slice(2, 4), 16);
+  const b = parseInt(color.slice(4, 6), 16);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.5 ? '#140700' : '#ffffff';
+}
+
+const bgColor = accentColor || '#2D3142';
+const textColor = getContrastColor(bgColor);
+
+// Vary heights for visual interest
+const heightPatterns = [140, 100, 80, 120, 160, 90, 110, 130, 85, 150, 95];
+const height = heightPatterns[index % heightPatterns.length];
+
+// Check if we should show logo (client project with logo)
+const showLogo = !isSelfInitiated && clientLogo;
+---
+
+<article
+  class="spine"
+  style={`--bg-color: ${bgColor}; --text-color: ${textColor}; --height: ${height}px; --index: ${index}`}
+  data-animate
+>
+  <a href={`/projects/${project.id}`} class="spine-link">
+    <span class="spine-title">{title}</span>
+    <div class="spine-right">
+      {showLogo ? (
+        <Image
+          src={clientLogo}
+          alt={client}
+          class="spine-logo"
+          width={120}
+          height={40}
+        />
+      ) : (
+        <span class="spine-client">{displayText}</span>
+      )}
+    </div>
+  </a>
+</article>
+
+<style>
+  .spine {
+    width: 100%;
+    height: var(--height);
+    min-height: 80px;
+    background-color: var(--bg-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: transform var(--duration-normal) var(--ease-spring),
+                filter var(--duration-normal) var(--ease-out);
+  }
+
+  .spine:hover {
+    transform: scale(1.01) translateY(-2px);
+    filter: brightness(1.05);
+  }
+
+  .spine-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    padding: var(--space-6) var(--space-8);
+    text-decoration: none;
+    color: var(--text-color);
+  }
+
+  .spine-link:hover {
+    opacity: 1;
+  }
+
+  .spine-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    font-weight: var(--font-regular);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .spine-right {
+    display: flex;
+    align-items: center;
+  }
+
+  .spine-client {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    opacity: 0.8;
+    text-align: right;
+  }
+
+  .spine-logo {
+    height: auto;
+    max-height: 80px;
+    width: auto;
+    max-width: 240px;
+    object-fit: contain;
+    /* Make logos white */
+    filter: brightness(0) invert(1);
+  }
+
+  /* Staggered animation */
+  .spine {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .spine.is-visible {
+    animation: spineReveal 0.5s var(--ease-out) forwards;
+    animation-delay: calc(var(--index) * 60ms);
+  }
+
+  @keyframes spineReveal {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .spine {
+      height: auto;
+      min-height: 70px;
+    }
+
+    .spine-link {
+      padding: var(--space-4) var(--space-5);
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: var(--space-2);
+    }
+
+    .spine-title {
+      font-size: var(--text-lg);
+    }
+
+    .spine-client {
+      text-align: left;
+      font-size: var(--text-xs);
+    }
+
+    .spine-logo {
+      max-height: 40px;
+      max-width: 140px;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .spine {
+      opacity: 1;
+      transform: none;
+      transition: filter var(--duration-fast) var(--ease-out);
+    }
+
+    .spine:hover {
+      transform: none;
+    }
+
+    .spine.is-visible {
+      animation: none;
+    }
+  }
+</style>
