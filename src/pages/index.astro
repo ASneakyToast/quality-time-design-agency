@@ -21,6 +21,7 @@ const sortedClientProjects = clientProjects.sort((a, b) =>
       <h1 class="hero-title">
         <span class="hero-line" style="--delay: 0.1s">Quality</span>
         <span class="hero-line" style="--delay: 0.2s">Time</span>
+        <img src="/favicon-mark.ico" alt="" class="hero-flavor-mark" aria-hidden="true" style="--delay: 0.3s" />
       </h1>
       <p class="hero-tagline" style="--delay: 0.4s">
         Design Studio
@@ -69,12 +70,27 @@ const sortedClientProjects = clientProjects.sort((a, b) =>
   }
 
   .hero-title {
+    position: relative;
     font-family: var(--font-display);
     font-size: var(--text-hero);
     font-weight: var(--font-regular);
     line-height: var(--leading-hero);
     letter-spacing: var(--tracking-tightest);
     margin-bottom: var(--space-6);
+  }
+
+  .hero-flavor-mark {
+    position: absolute;
+    top: -0.1em;
+    right: -0.15em;
+    width: clamp(1.5rem, 1rem + 2vw, 3rem);
+    height: auto;
+    opacity: 0;
+    transform: translateY(20px) rotate(-8deg);
+    animation:
+      flavorReveal 0.8s var(--ease-spring-soft) 0.3s forwards,
+      flavorSpin 5s ease-in-out 1.5s infinite;
+    pointer-events: none;
   }
 
   .hero-line {
@@ -107,6 +123,44 @@ const sortedClientProjects = clientProjects.sort((a, b) =>
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @keyframes flavorReveal {
+    to {
+      opacity: 1;
+      transform: translateY(0) rotate(-8deg);
+    }
+  }
+
+  @keyframes flavorSpin {
+    0% {
+      transform: rotate(-8deg) rotateY(0deg);
+    }
+    /* Big wobble */
+    15% {
+      transform: rotate(-8deg) rotateY(30deg);
+    }
+    30% {
+      transform: rotate(-8deg) rotateY(-25deg);
+    }
+    /* Medium wobble */
+    45% {
+      transform: rotate(-8deg) rotateY(15deg);
+    }
+    55% {
+      transform: rotate(-8deg) rotateY(-12deg);
+    }
+    /* Small wobble / settle */
+    65% {
+      transform: rotate(-8deg) rotateY(6deg);
+    }
+    70% {
+      transform: rotate(-8deg) rotateY(0deg);
+    }
+    /* Big 360 spin */
+    100% {
+      transform: rotate(-8deg) rotateY(360deg);
     }
   }
 
