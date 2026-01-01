@@ -1,0 +1,100 @@
+---
+const clients = [
+  'Monterey Design Conference',
+  'California College of the Arts',
+  'SF Art Book Fair',
+];
+---
+
+<section class="clients">
+  <div class="clients-inner">
+    <span class="clients-label" data-animate>Selected Clients</span>
+    <div class="clients-list" data-animate style="--stagger: 1">
+      {clients.map((client, index) => (
+        <span class="client-name">
+          {client}
+          {index < clients.length - 1 && <span class="client-divider" aria-hidden="true" />}
+        </span>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .clients {
+    padding: var(--space-16) var(--gutter);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .clients-inner {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .clients-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+  }
+
+  .clients-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .client-name {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-4);
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: var(--font-regular);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-secondary);
+  }
+
+  .client-divider {
+    width: 4px;
+    height: 4px;
+    background-color: var(--color-text-muted);
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+
+  @media (max-width: 768px) {
+    .clients-list {
+      gap: var(--space-3);
+    }
+
+    .client-name {
+      font-size: var(--text-base);
+      gap: var(--space-3);
+    }
+
+    .client-divider {
+      width: 3px;
+      height: 3px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .clients-list {
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .client-divider {
+      display: none;
+    }
+  }
+</style>

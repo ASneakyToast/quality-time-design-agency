@@ -20,6 +20,17 @@ const socialLinks = [
   { label: 'Twitter', href: 'https://twitter.com/qualitytime' },
   { label: 'LinkedIn', href: 'https://linkedin.com/company/qualitytime' },
 ];
+
+const teamMembers = [
+  'Devan Ponce',
+  'Maria Cardenas',
+  'Andrew Roque',
+  'Cole Ryder',
+  'Savithri Velaga',
+  'Thomas Euyang',
+  'Farzad Kargaran',
+  'Atharva Raut',
+];
 ---
 
 <footer class="footer">
@@ -122,6 +133,16 @@ const socialLinks = [
           ))}
         </div>
       </div>
+    </div>
+
+    <!-- Team Members -->
+    <div class="footer-team">
+      <h4 class="footer-heading">The Team</h4>
+      <ul class="team-list">
+        {teamMembers.map((member) => (
+          <li class="team-member">{member}</li>
+        ))}
+      </ul>
     </div>
 
     <!-- Bottom bar -->
@@ -431,6 +452,31 @@ const socialLinks = [
 
   .social-link:hover .social-arrow {
     opacity: 1;
+  }
+
+  /* ==========================================================================
+     Team Section
+     ========================================================================== */
+  .footer-team {
+    padding: var(--space-12) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .footer-team .footer-heading {
+    text-align: center;
+    margin-bottom: var(--space-6);
+  }
+
+  .team-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2) var(--space-6);
+  }
+
+  .team-member {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
   }
 
   /* ==========================================================================

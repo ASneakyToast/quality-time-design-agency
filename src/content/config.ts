@@ -37,6 +37,7 @@ const projectsCollection = defineCollection({
           })
         )
         .optional(),
+      designer: z.string().optional(),
       draft: z.boolean().default(false),
     }),
 });

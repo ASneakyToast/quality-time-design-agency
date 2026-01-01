@@ -2,9 +2,14 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import ProjectCarousel from '@/components/portfolio/ProjectCarousel.astro';
+import ClientLogos from '@/components/home/ClientLogos.astro';
+import Capabilities from '@/components/home/Capabilities.astro';
+import DesignerSpotlight from '@/components/home/DesignerSpotlight.astro';
 
-// Get all non-draft projects, sorted by order then date
-const projects = await getCollection('projects', ({ data }) => !data.draft);
+// Get all non-draft, non-self-initiated projects for the main carousel
+const projects = await getCollection('projects', ({ data }) =>
+  !data.draft && data.client !== 'Self-initiated'
+);
 const sortedProjects = projects.sort((a, b) => {
   if (a.data.order !== undefined && b.data.order !== undefined) {
     return a.data.order - b.data.order;
@@ -24,7 +29,7 @@ const sortedProjects = projects.sort((a, b) => {
         <span class="hero-line" style="--delay: 0.2s">Time</span>
       </h1>
       <p class="hero-tagline" style="--delay: 0.4s">
-        Interdisciplinary design collective
+        Design Studio
       </p>
       <p class="hero-services" style="--delay: 0.5s">
         Branding / Systems / Craft
@@ -41,6 +46,9 @@ const sortedProjects = projects.sort((a, b) => {
     </div>
   </section>
 
+  <!-- Selected Clients -->
+  <ClientLogos />
+
   <!-- Work Section with Carousel -->
   <section class="work" id="work">
     <header class="section-header">
@@ -52,6 +60,12 @@ const sortedProjects = projects.sort((a, b) => {
 
     <ProjectCarousel projects={sortedProjects} />
   </section>
+
+  <!-- Capabilities -->
+  <Capabilities />
+
+  <!-- Meet Our Designers -->
+  <DesignerSpotlight />
 </BaseLayout>
 
 <style>
