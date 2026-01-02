@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await render(project);
-const { title, client, year, heroImage, services, description, liveUrl, credits, accentColor } = project.data;
+const { title, client, year, heroImage, gallery, services, description, liveUrl, credits, accentColor } = project.data;
 
 // Service labels
 const serviceLabels: Record<string, string> = {
@@ -83,6 +83,26 @@ const nextProject = allProjects[(currentIndex + 1) % allProjects.length];
     <div class="project-content">
       <Content />
     </div>
+
+    <!-- Gallery -->
+    {gallery && gallery.length > 0 && (
+      <section class="project-gallery">
+        <div class="gallery-grid">
+          {gallery.map((image, index) => (
+            <div class="gallery-item">
+              <Image
+                src={image}
+                alt={`${title} gallery image ${index + 1}`}
+                widths={[600, 900, 1200]}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                loading="lazy"
+                class="gallery-img"
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
 
     <!-- Credits -->
     {credits && credits.length > 0 && (
@@ -290,6 +310,36 @@ const nextProject = allProjects[(currentIndex + 1) % allProjects.length];
     width: 100%;
     height: auto;
     margin: var(--space-10) 0;
+  }
+
+  /* Gallery */
+  .project-gallery {
+    padding: 0 var(--gutter);
+    margin-bottom: var(--section-gap);
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    max-width: var(--container-max);
+    margin: 0 auto;
+  }
+
+  .gallery-item {
+    overflow: hidden;
+  }
+
+  .gallery-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .gallery-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   /* Credits */
