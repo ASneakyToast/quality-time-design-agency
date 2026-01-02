@@ -2,10 +2,10 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Capabilities from '@/components/home/Capabilities.astro';
-import TableauGallery from '@/components/home/TableauGallery.astro';
-import DesignerCarousel from '@/components/home/DesignerCarousel.astro';
+import ProjectGallery from '@/components/home/ProjectGallery.astro';
+import ContactShowcase from '@/components/home/ContactShowcase.astro';
 
-// Get client projects only (not self-initiated) for the Tableau, sorted by date
+// Get featured/client projects for the gallery, sorted by date
 const clientProjects = await getCollection('projects', ({ data }) =>
   !data.draft && data.client !== 'Self-initiated'
 );
@@ -38,14 +38,14 @@ const sortedClientProjects = clientProjects.sort((a, b) =>
     </div>
   </section>
 
+  <!-- Selected Work - Horizontal Project Gallery -->
+  <ProjectGallery projects={sortedClientProjects} maxItems={4} />
+
   <!-- Capabilities -->
   <Capabilities />
 
-  <!-- Selected Work - Tableau Gallery -->
-  <TableauGallery projects={sortedClientProjects} maxItems={4} />
-
-  <!-- Meet the Designers - Horizontal Carousel -->
-  <DesignerCarousel />
+  <!-- Contact Teaser -->
+  <ContactShowcase />
 </BaseLayout>
 
 <style>

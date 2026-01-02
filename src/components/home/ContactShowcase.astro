@@ -1,0 +1,309 @@
+---
+import { Image } from 'astro:assets';
+
+import wetImg from '@/assets/images/projects/wet.png';
+import workshopImg from '@/assets/images/projects/workshop.png';
+import viewingRoomImg from '@/assets/images/projects/viewing-room.jpg';
+import officeHoursImg from '@/assets/images/projects/qt-office-hours.jpg';
+
+const images = [
+  { src: wetImg, alt: 'Quality Time studio space' },
+  { src: workshopImg, alt: 'Risograph printing workshop' },
+  { src: viewingRoomImg, alt: 'Design review session' },
+  { src: officeHoursImg, alt: 'Team office hours' },
+];
+---
+
+<section class="contact-showcase">
+  <div class="showcase-carousel" data-contact-carousel>
+    {images.map((image, index) => (
+      <div class="carousel-slide" data-slide={index} class:list={{ 'is-active': index === 0 }}>
+        <Image
+          src={image.src}
+          alt={image.alt}
+          widths={[1200, 1600, 2000, 2400]}
+          sizes="100vw"
+          loading={index === 0 ? 'eager' : 'lazy'}
+          class="carousel-image"
+        />
+      </div>
+    ))}
+  </div>
+
+  <div class="showcase-overlay">
+    <header class="showcase-header">
+      <h2 class="section-title">Let's create something together</h2>
+      <p class="section-description">
+        Have a project in mind? We'd love to hear about it.
+      </p>
+      <a href="/contact" class="section-cta">
+        Get in touch
+        <svg class="cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </header>
+  </div>
+
+  <div class="showcase-progress">
+    {images.map((_, index) => (
+      <button
+        class="progress-dot"
+        class:list={{ 'is-active': index === 0 }}
+        data-slide-trigger={index}
+        aria-label={`Go to slide ${index + 1}`}
+      />
+    ))}
+  </div>
+</section>
+
+<style>
+  .contact-showcase {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    max-height: 900px;
+    overflow: hidden;
+  }
+
+  .showcase-carousel {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .carousel-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.2s var(--ease-out);
+  }
+
+  .carousel-slide.is-active {
+    opacity: 1;
+  }
+
+  .carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .carousel-slide.is-active .carousel-image {
+    animation: kenBurns 8s ease-out forwards;
+  }
+
+  @keyframes kenBurns {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.05);
+    }
+  }
+
+  .showcase-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0.5) 50%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+    z-index: 1;
+  }
+
+  .showcase-header {
+    text-align: center;
+    max-width: 600px;
+    padding: var(--space-8);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: var(--text-5xl);
+    font-weight: var(--font-regular);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tighter);
+    color: white;
+    margin: 0 0 var(--space-4);
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .section-description {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: var(--font-regular);
+    line-height: var(--leading-relaxed);
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 var(--space-8);
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .section-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-ink);
+    background-color: var(--color-paper);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      gap 0.4s cubic-bezier(0.25, 0.1, 0.25, 1),
+      background-color 0.35s ease-out,
+      color 0.35s ease-out,
+      transform 0.3s ease-out;
+  }
+
+  .section-cta:hover {
+    opacity: 1;
+    gap: var(--space-4);
+    background-color: var(--color-accent);
+    color: var(--color-paper);
+    transform: translateY(-2px);
+  }
+
+  .cta-arrow {
+    transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .section-cta:hover .cta-arrow {
+    transform: translateX(4px);
+  }
+
+  .showcase-progress {
+    position: absolute;
+    bottom: var(--space-8);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: var(--space-3);
+    z-index: 2;
+  }
+
+  .progress-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.4);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    padding: 0;
+  }
+
+  .progress-dot:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+    transform: scale(1.2);
+  }
+
+  .progress-dot.is-active {
+    background-color: white;
+    transform: scale(1.2);
+  }
+
+  @media (max-width: 768px) {
+    .contact-showcase {
+      height: 80vh;
+      min-height: 500px;
+    }
+
+    .section-title {
+      font-size: var(--text-4xl);
+    }
+
+    .section-description {
+      font-size: var(--text-lg);
+    }
+
+    .showcase-header {
+      padding: var(--space-6);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .section-title {
+      font-size: var(--text-3xl);
+    }
+
+    .section-description {
+      font-size: var(--text-base);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carousel-slide {
+      transition: opacity 0.3s ease-out;
+    }
+
+    .carousel-slide.is-active .carousel-image {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  function initContactCarousel() {
+    const carousel = document.querySelector('[data-contact-carousel]');
+    const slides = carousel?.querySelectorAll('[data-slide]');
+    const dots = document.querySelectorAll('[data-slide-trigger]');
+
+    if (!carousel || !slides || slides.length === 0) return;
+
+    let currentIndex = 0;
+    let intervalId: ReturnType<typeof setInterval>;
+    const autoPlayDelay = 5000;
+
+    const goToSlide = (index: number) => {
+      slides.forEach(slide => slide.classList.remove('is-active'));
+      dots.forEach(dot => dot.classList.remove('is-active'));
+
+      slides[index]?.classList.add('is-active');
+      dots[index]?.classList.add('is-active');
+
+      currentIndex = index;
+    };
+
+    const nextSlide = () => {
+      const next = (currentIndex + 1) % slides.length;
+      goToSlide(next);
+    };
+
+    const startAutoPlay = () => {
+      intervalId = setInterval(nextSlide, autoPlayDelay);
+    };
+
+    const stopAutoPlay = () => {
+      clearInterval(intervalId);
+    };
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        stopAutoPlay();
+        goToSlide(index);
+        startAutoPlay();
+      });
+    });
+
+    carousel.addEventListener('mouseenter', stopAutoPlay);
+    carousel.addEventListener('mouseleave', startAutoPlay);
+
+    startAutoPlay();
+  }
+
+  initContactCarousel();
+  document.addEventListener('astro:page-load', initContactCarousel);
+</script>

@@ -1,0 +1,472 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Contact | Quality Time"
+  description="Get in touch with Quality Time. Let's discuss your project and explore how we can help bring your vision to life."
+>
+  <article class="contact">
+    <!-- Hero -->
+    <header class="contact-hero">
+      <div class="contact-hero-content">
+        <span class="hero-label" data-animate>Contact</span>
+        <h1 class="contact-title" data-animate style="--stagger: 1">
+          Let's start a
+          <br />
+          <em>conversation</em>
+        </h1>
+        <p class="contact-intro" data-animate style="--stagger: 2">
+          Every great project begins with a simple hello. Whether you have a clear vision
+          or just the seed of an idea, we'd love to hear from you.
+        </p>
+      </div>
+    </header>
+
+    <!-- Contact Methods -->
+    <section class="contact-section">
+      <div class="section-grid">
+        <div class="section-header">
+          <h2 class="section-label" data-animate>Get in Touch</h2>
+        </div>
+        <div class="section-content">
+          <form name="contact" method="POST" data-netlify="true" class="contact-form" data-animate style="--stagger: 1">
+            <input type="hidden" name="form-name" value="contact" />
+            <div class="form-field">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required placeholder="Your name" />
+            </div>
+            <div class="form-field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required placeholder="your@email.com" />
+            </div>
+            <div class="form-field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" required placeholder="Tell us about your project..."></textarea>
+            </div>
+            <button type="submit" class="form-submit">
+              Send Message
+              <svg class="submit-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </form>
+          <div class="contact-location" data-animate style="--stagger: 2">
+            <span class="location-label">Based in</span>
+            <span class="location-value">San Francisco, CA</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What to Expect -->
+    <section class="contact-section expect-section">
+      <div class="section-grid">
+        <div class="section-header">
+          <h2 class="section-label" data-animate>What to Expect</h2>
+        </div>
+        <div class="section-content">
+          <div class="expect-list">
+            <div class="expect-item" data-animate style="--stagger: 1">
+              <span class="expect-number">01</span>
+              <h3 class="expect-title">Initial Chat</h3>
+              <p class="expect-description">
+                We'll schedule a brief call to learn about your project, goals, and timeline.
+                No commitment required—just a friendly conversation.
+              </p>
+            </div>
+            <div class="expect-item" data-animate style="--stagger: 2">
+              <span class="expect-number">02</span>
+              <h3 class="expect-title">Proposal</h3>
+              <p class="expect-description">
+                If we're a good fit, we'll put together a tailored proposal outlining our
+                approach, deliverables, and investment.
+              </p>
+            </div>
+            <div class="expect-item" data-animate style="--stagger: 3">
+              <span class="expect-number">03</span>
+              <h3 class="expect-title">Kick Off</h3>
+              <p class="expect-description">
+                Once aligned, we'll dive into discovery and begin the creative process
+                together. Quality work, here we come.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <div class="cta-inner">
+        <h2 class="cta-title" data-animate>Ready to begin?</h2>
+        <p class="cta-text" data-animate style="--stagger: 1">
+          Fill out the form above and let's explore what's possible.
+        </p>
+        <a href="#name" class="cta-button" data-animate style="--stagger: 2">
+          Back to form
+          <svg class="cta-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .contact {
+    padding-bottom: 0;
+  }
+
+  /* ==========================================================================
+     Hero
+     ========================================================================== */
+  .contact-hero {
+    padding: var(--space-32) var(--gutter) var(--section-gap);
+  }
+
+  .contact-hero-content {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+  }
+
+  .hero-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .contact-title {
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    font-weight: var(--font-regular);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-tighter);
+    margin-bottom: var(--space-8);
+  }
+
+  .contact-title em {
+    font-style: italic;
+    color: var(--color-text-secondary);
+  }
+
+  .contact-intro {
+    font-size: var(--text-xl);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    max-width: 55ch;
+  }
+
+  /* ==========================================================================
+     Sections
+     ========================================================================== */
+  .contact-section {
+    padding: var(--section-gap-sm) var(--gutter);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .section-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-16);
+    max-width: var(--container-xl);
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    position: sticky;
+    top: var(--space-24);
+  }
+
+  /* ==========================================================================
+     Contact Form
+     ========================================================================== */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    max-width: 500px;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .form-field label {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .form-field input,
+  .form-field textarea {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    transition:
+      border-color var(--duration-fast) ease,
+      box-shadow var(--duration-fast) ease;
+  }
+
+  .form-field input::placeholder,
+  .form-field textarea::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .form-field input:focus,
+  .form-field textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb, 0, 0, 0), 0.1);
+  }
+
+  .form-field textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .form-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    align-self: flex-start;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-paper);
+    background-color: var(--color-ink);
+    padding: var(--space-4) var(--space-8);
+    border: none;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition:
+      gap var(--duration-fast) var(--ease-spring),
+      background-color var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) ease;
+  }
+
+  .form-submit:hover {
+    gap: var(--space-4);
+    background-color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+
+  .submit-arrow {
+    transition: transform var(--duration-fast) var(--ease-spring);
+  }
+
+  .form-submit:hover .submit-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Dark mode button */
+  :global([data-theme="dark"]) .form-submit {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  :global([data-theme="dark"]) .form-submit:hover {
+    background-color: var(--color-accent);
+    color: var(--color-paper);
+  }
+
+  .contact-location {
+    margin-top: var(--space-8);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .location-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  .location-value {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: var(--font-regular);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-primary);
+  }
+
+  /* ==========================================================================
+     What to Expect
+     ========================================================================== */
+  .expect-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .expect-item {
+    max-width: 50ch;
+    position: relative;
+    padding-left: var(--space-12);
+  }
+
+  .expect-number {
+    position: absolute;
+    left: 0;
+    top: 0.1em;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-accent);
+  }
+
+  .expect-title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-regular);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-3);
+    color: var(--color-text-primary);
+  }
+
+  .expect-description {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+  }
+
+  /* ==========================================================================
+     CTA
+     ========================================================================== */
+  .cta-section {
+    padding: var(--section-gap) var(--gutter);
+    text-align: center;
+  }
+
+  .cta-inner {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .cta-title {
+    font-family: var(--font-display);
+    font-size: var(--text-4xl);
+    font-weight: var(--font-regular);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-4);
+  }
+
+  .cta-text {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-8);
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-paper);
+    background-color: var(--color-ink);
+    padding: var(--space-4) var(--space-8);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition:
+      gap var(--duration-fast) var(--ease-spring),
+      background-color var(--duration-fast) var(--ease-out);
+  }
+
+  .cta-button:hover {
+    opacity: 1;
+    gap: var(--space-4);
+    background-color: var(--color-accent);
+  }
+
+  .cta-arrow {
+    transition: transform var(--duration-fast) var(--ease-spring);
+  }
+
+  .cta-button:hover .cta-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Dark mode button */
+  :global([data-theme="dark"]) .cta-button {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  :global([data-theme="dark"]) .cta-button:hover {
+    background-color: var(--color-accent);
+    color: var(--color-paper);
+  }
+
+  /* ==========================================================================
+     Responsive
+     ========================================================================== */
+  @media (max-width: 1024px) {
+    .section-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+
+    .section-label {
+      position: static;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .contact-hero {
+      padding-top: var(--space-24);
+    }
+
+    .contact-title {
+      font-size: var(--text-4xl);
+    }
+
+    .contact-intro {
+      font-size: var(--text-lg);
+    }
+
+    .expect-title {
+      font-size: var(--text-xl);
+    }
+
+    .cta-title {
+      font-size: var(--text-3xl);
+    }
+  }
+</style>
