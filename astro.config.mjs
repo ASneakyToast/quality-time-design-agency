@@ -15,10 +15,7 @@ export default defineConfig({
       pathname: '/quality-time-assets/**'
     }]
   },
-  prefetch: {
-    prefetchAll: true,
-    defaultStrategy: 'viewport',
-  },
+  prefetch: false,
   build: {
     inlineStylesheets: 'auto',
   },

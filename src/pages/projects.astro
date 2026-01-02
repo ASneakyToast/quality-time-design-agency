@@ -1,0 +1,185 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+
+// Get all non-draft projects
+const projects = await getCollection('projects', ({ data }) => !data.draft);
+
+// Sort by date (most recent first)
+const sortedProjects = projects.sort(
+  (a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime()
+);
+---
+
+<BaseLayout
+  title="Projects | Quality Time"
+  description="Selected projects and collaborations from Quality Time design collective."
+>
+  <section class="projects-section">
+    <header class="section-header">
+      <span class="section-label" data-animate>Projects</span>
+      <p class="section-description" data-animate style="--stagger: 1">
+        Selected work across branding, publishing, and design.
+      </p>
+    </header>
+
+    <div class="projects-grid">
+      {sortedProjects.map((project, index) => (
+        <article class="project-item" data-animate style={`--stagger: ${index % 4}`}>
+          <a href={`/projects/${project.id}`} class="project-link">
+            <div class="project-image-wrapper">
+              <Image
+                src={project.data.thumbnail}
+                alt={`${project.data.title} project thumbnail`}
+                widths={[300, 400, 500, 600]}
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                loading={index < 8 ? 'eager' : 'lazy'}
+                inferSize={true}
+                class="project-image"
+              />
+            </div>
+            <div class="project-info">
+              <h3 class="project-title">{project.data.title}</h3>
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ==========================================================================
+     Projects Section - IN-FO.CO Style Dense Grid
+     ========================================================================== */
+  .projects-section {
+    padding: var(--space-24) var(--gutter) var(--section-gap);
+  }
+
+  .section-header {
+    margin-bottom: var(--space-16);
+  }
+
+  .section-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .section-description {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-regular);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-primary);
+    max-width: 28ch;
+  }
+
+  /* ==========================================================================
+     Dense Grid Layout - 4 columns on desktop, 3 on tablet, 2 on mobile
+     ========================================================================== */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+  }
+
+  /* ==========================================================================
+     Project Item
+     ========================================================================== */
+  .project-item {
+    position: relative;
+  }
+
+  .project-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .project-link:hover {
+    opacity: 1;
+  }
+
+  .project-image-wrapper {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: var(--color-bg-primary);
+  }
+
+  .project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform var(--duration-slow) var(--ease-spring);
+  }
+
+  .project-link:hover .project-image {
+    transform: scale(1.03);
+  }
+
+  .project-info {
+    padding: var(--space-3) 0;
+  }
+
+  .project-title {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    line-height: var(--leading-snug);
+    color: var(--color-text-primary);
+    margin: 0;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .project-link:hover .project-title {
+    color: var(--color-accent);
+  }
+
+  /* ==========================================================================
+     Responsive
+     ========================================================================== */
+  @media (max-width: 1024px) {
+    .projects-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .projects-section {
+      padding-top: var(--space-16);
+    }
+
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+    }
+
+    .section-description {
+      font-size: var(--text-xl);
+    }
+
+    .project-title {
+      font-size: var(--text-xs);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .projects-grid {
+      gap: var(--space-2);
+    }
+
+    .project-info {
+      padding: var(--space-2) 0;
+    }
+  }
+</style>
+
