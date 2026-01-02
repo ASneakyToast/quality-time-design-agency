@@ -74,6 +74,7 @@ const designerGroups: DesignerGroup[] = sortedDesigners.map((designer, index) =>
                     alt={designer.data.name}
                     width={400}
                     height={500}
+                    inferSize={true}
                     class="designer-photo"
                   />
                 ) : (
@@ -101,6 +102,7 @@ const designerGroups: DesignerGroup[] = sortedDesigners.map((designer, index) =>
                       alt={project.data.title}
                       widths={[400, 600, 800]}
                       sizes="(max-width: 768px) 80vw, 400px"
+                      inferSize={true}
                       class="project-image"
                     />
                     <div class="project-content">

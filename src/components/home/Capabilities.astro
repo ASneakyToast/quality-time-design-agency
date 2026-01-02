@@ -34,7 +34,7 @@ const capabilities = [
       <p class="section-description" data-animate style="--stagger: 1">
         Full-service creative expertise spanning brand strategy to final production. We craft cohesive experiences across every touchpoint.
       </p>
-      <a href="/about" class="section-cta" data-animate style="--stagger: 2">
+      <a href="/about#capabilities" class="section-cta" data-animate style="--stagger: 2">
         What we offer
         <svg class="cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -197,11 +197,6 @@ const capabilities = [
   .capability-item {
     padding-bottom: var(--space-8);
     border-bottom: 1px solid var(--color-border);
-    transition: border-color var(--duration-fast) var(--ease-out);
-  }
-
-  .capability-item:hover {
-    border-color: var(--color-accent);
   }
 
   .capability-name {
@@ -211,11 +206,6 @@ const capabilities = [
     letter-spacing: var(--tracking-tight);
     margin-bottom: var(--space-3);
     color: var(--color-text-primary);
-    transition: color var(--duration-fast) var(--ease-out);
-  }
-
-  .capability-item:hover .capability-name {
-    color: var(--color-accent);
   }
 
   .capability-description {

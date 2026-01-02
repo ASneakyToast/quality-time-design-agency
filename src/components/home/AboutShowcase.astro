@@ -9,8 +9,8 @@ const images = [
 ];
 ---
 
-<section class="contact-showcase">
-  <div class="showcase-carousel" data-contact-carousel>
+<section class="about-showcase">
+  <div class="showcase-carousel" data-about-carousel>
     {images.map((image, index) => (
       <div class="carousel-slide" data-slide={index} class:list={{ 'is-active': index === 0 }}>
         <Image
@@ -28,12 +28,12 @@ const images = [
 
   <div class="showcase-overlay">
     <header class="showcase-header">
-      <h2 class="section-title">Let's create something together</h2>
+      <h2 class="section-title">An interdisciplinary design collective</h2>
       <p class="section-description">
-        Have a project in mind? We'd love to hear about it.
+        Branding, digital, and print—through an iterative, human-centered approach.
       </p>
-      <a href="/contact" class="section-cta">
-        Get in touch
+      <a href="/about" class="section-cta">
+        About the studio
         <svg class="cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
@@ -54,7 +54,7 @@ const images = [
 </section>
 
 <style>
-  .contact-showcase {
+  .about-showcase {
     position: relative;
     width: 100%;
     height: 100vh;
@@ -212,7 +212,7 @@ const images = [
   }
 
   @media (max-width: 768px) {
-    .contact-showcase {
+    .about-showcase {
       height: 80vh;
       min-height: 500px;
     }
@@ -252,8 +252,8 @@ const images = [
 </style>
 
 <script>
-  function initContactCarousel() {
-    const carousel = document.querySelector('[data-contact-carousel]');
+  function initAboutCarousel() {
+    const carousel = document.querySelector('[data-about-carousel]');
     const slides = carousel?.querySelectorAll('[data-slide]');
     const dots = document.querySelectorAll('[data-slide-trigger]');
 
@@ -300,6 +300,6 @@ const images = [
     startAutoPlay();
   }
 
-  initContactCarousel();
-  document.addEventListener('astro:page-load', initContactCarousel);
+  initAboutCarousel();
+  document.addEventListener('astro:page-load', initAboutCarousel);
 </script>

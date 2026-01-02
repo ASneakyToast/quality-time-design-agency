@@ -75,6 +75,7 @@ const nextProject = allProjects[(currentIndex + 1) % allProjects.length];
         widths={[800, 1200, 1600, 2000]}
         sizes="100vw"
         loading="eager"
+        inferSize={true}
         class="hero-img"
       />
     </div>
@@ -96,6 +97,7 @@ const nextProject = allProjects[(currentIndex + 1) % allProjects.length];
                 widths={[600, 900, 1200]}
                 sizes="(max-width: 768px) 100vw, 50vw"
                 loading="lazy"
+                inferSize={true}
                 class="gallery-img"
               />
             </div>
