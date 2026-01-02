@@ -87,9 +87,26 @@ const fullTitle = title === 'Quality Time' ? title : `${title} — Quality Time`
         document.body.classList.remove('is-navigating');
       });
 
-      // Reset scroll position on navigation
+      // Reset scroll position and update nav on navigation
       document.addEventListener('astro:page-load', () => {
         window.scrollTo(0, 0);
+
+        /**
+         * PATTERN: Updating route-dependent state in transition:persist components
+         *
+         * Components with transition:persist keep their DOM across navigations but
+         * don't re-render, so server-computed values (Astro.url.pathname, props)
+         * become stale. Use astro:page-load to sync client-side state.
+         *
+         * @see https://docs.astro.build/en/guides/view-transitions/#lifecycle-events
+         */
+        const path = window.location.pathname;
+        document.querySelectorAll('[data-nav] .nav-link').forEach((link) => {
+          const href = link.getAttribute('href');
+          const isActive = href && path.startsWith(href);
+          link.classList.toggle('active', !!isActive);
+          link.setAttribute('aria-current', isActive ? 'page' : '');
+        });
       });
     </script>
   </body>

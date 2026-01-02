@@ -5,6 +5,10 @@ import Navigation from './Navigation.astro';
 const currentPath = Astro.url.pathname;
 ---
 
+<!--
+  transition:persist keeps header DOM across navigations for smooth transitions.
+  Route-dependent state (nav active) must be updated via astro:page-load in BaseLayout.
+-->
 <header class="header" data-header transition:persist transition:name="header">
   <div class="header-inner">
     <a href="/" class="logo" aria-label="Quality Time - Home">
