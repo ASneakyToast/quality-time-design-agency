@@ -3,14 +3,14 @@ import { glob } from 'astro/loaders';
 
 const projectsCollection = defineCollection({
   loader: glob({ pattern: '**/index.{md,mdx}', base: './src/content/projects' }),
-  schema: ({ image }) =>
+  schema: () =>
     z.object({
       title: z.string(),
       client: z.string(),
       year: z.number().min(2000).max(2030),
-      heroImage: image(),
-      thumbnail: image(),
-      gallery: z.array(image()).optional(),
+      heroImage: z.string(),
+      thumbnail: z.string(),
+      gallery: z.array(z.string()).optional(),
       services: z.array(
         z.enum([
           'branding',
@@ -27,7 +27,7 @@ const projectsCollection = defineCollection({
       featured: z.boolean().default(false),
       order: z.number().optional(),
       accentColor: z.string().optional(),
-      clientLogo: image().optional(),
+      clientLogo: z.string().optional(),
       description: z.string().max(200),
       publishedDate: z.coerce.date(),
       liveUrl: z.string().url().optional(),
@@ -47,12 +47,12 @@ const projectsCollection = defineCollection({
 
 const designersCollection = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/designers' }),
-  schema: ({ image }) =>
+  schema: () =>
     z.object({
       name: z.string(),
       role: z.string(),
       bio: z.string(),
-      photo: image().optional(),
+      photo: z.string().optional(),
       email: z.string().email().optional(),
       website: z.string().url().optional(),
       social: z

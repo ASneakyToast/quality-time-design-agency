@@ -8,6 +8,13 @@ export default defineConfig({
   site: 'https://qualitytime.fun',
   output: 'static',
   integrations: [mdx(), sitemap()],
+  image: {
+    remotePatterns: [{
+      protocol: 'https',
+      hostname: 'storage.googleapis.com',
+      pathname: '/quality-time-assets/**'
+    }]
+  },
   prefetch: {
     prefetchAll: true,
     defaultStrategy: 'viewport',
