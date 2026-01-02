@@ -1,0 +1,8 @@
+{
+  "gallery": {
+    "meier-st": [4, 5]
+  },
+  "defaults": {
+    "galleryImages": [2, 3]
+  }
+}

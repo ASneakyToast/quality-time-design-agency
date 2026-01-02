@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import Capabilities from '@/components/home/Capabilities.astro';
+import ShowreelTeaser from '@/components/home/ShowreelTeaser.astro';
 import ProjectGallery from '@/components/home/ProjectGallery.astro';
 import ContactShowcase from '@/components/home/ContactShowcase.astro';
 
@@ -38,8 +38,8 @@ const sortedClientProjects = clientProjects.sort((a, b) =>
     </div>
   </section>
 
-  <!-- Capabilities -->
-  <Capabilities />
+  <!-- Showreel Teaser -->
+  <ShowreelTeaser />
 
   <!-- Selected Work - Horizontal Project Gallery -->
   <ProjectGallery projects={sortedClientProjects} maxItems={4} />

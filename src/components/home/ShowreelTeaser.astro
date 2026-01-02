@@ -1,0 +1,158 @@
+---
+// Showreel Teaser - Ken Burns slideshow (video-ready for future)
+import { Image } from 'astro:assets';
+
+// Import project images for the slideshow
+import img1 from '@/assets/images/projects/mdc.png';
+import img2 from '@/assets/images/projects/sf-art-book-fair.png';
+import img3 from '@/assets/images/projects/water-the-flowers.png';
+import img4 from '@/assets/images/projects/hollywood.png';
+import img5 from '@/assets/images/projects/conspiracy-calendar.png';
+import img6 from '@/assets/images/projects/auto.png';
+
+const slides = [img1, img2, img3, img4, img5, img6];
+---
+
+<section class="showreel" data-bg="var(--color-paper)">
+  <div class="showreel-container">
+    <!-- Video will go here when ready -->
+    <!-- <video class="showreel-video" autoplay muted loop playsinline>
+      <source src="/videos/showreel.mp4" type="video/mp4" />
+    </video> -->
+
+    <!-- Image slideshow (fallback / mobile) -->
+    <div class="showreel-slideshow">
+      {slides.map((slide, index) => (
+        <div class="slide" data-index={index} style={`--index: ${index}`}>
+          <Image
+            src={slide}
+            alt=""
+            widths={[800, 1200, 1600]}
+            sizes="(max-width: 768px) 100vw, 1200px"
+            class="slide-image"
+            loading={index === 0 ? 'eager' : 'lazy'}
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .showreel {
+    padding: var(--space-8) var(--gutter);
+  }
+
+  .showreel-container {
+    position: relative;
+    max-width: var(--container-xl);
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: var(--color-bg-secondary);
+  }
+
+  .showreel-slideshow {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    animation: slideshow 30s infinite;
+    animation-delay: calc(var(--index) * 5s);
+  }
+
+  .slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: kenburns 10s ease-out infinite;
+    animation-delay: calc(var(--index) * 5s);
+  }
+
+  /* Ken Burns - subtle zoom and pan */
+  @keyframes kenburns {
+    0% {
+      transform: scale(1) translate(0, 0);
+    }
+    100% {
+      transform: scale(1.08) translate(-1%, -1%);
+    }
+  }
+
+  /* Alternate Ken Burns directions */
+  .slide:nth-child(2n) .slide-image {
+    animation-name: kenburns-alt;
+  }
+
+  @keyframes kenburns-alt {
+    0% {
+      transform: scale(1.08) translate(-2%, 0);
+    }
+    100% {
+      transform: scale(1) translate(1%, -1%);
+    }
+  }
+
+  .slide:nth-child(3n) .slide-image {
+    animation-name: kenburns-up;
+  }
+
+  @keyframes kenburns-up {
+    0% {
+      transform: scale(1) translate(0, 2%);
+    }
+    100% {
+      transform: scale(1.06) translate(0, -1%);
+    }
+  }
+
+  /* Slideshow fade in/out */
+  @keyframes slideshow {
+    0% {
+      opacity: 0;
+    }
+    3% {
+      opacity: 1;
+    }
+    16.67% {
+      opacity: 1;
+    }
+    20% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* Video styles (for when video is added) */
+  .showreel-video {
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Show video on desktop when available */
+  @media (min-width: 768px) {
+    .showreel-container:has(.showreel-video[src]) .showreel-slideshow {
+      display: none;
+    }
+
+    .showreel-container:has(.showreel-video[src]) .showreel-video {
+      display: block;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .showreel-container {
+      aspect-ratio: 4 / 3;
+    }
+  }
+</style>

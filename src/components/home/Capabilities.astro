@@ -1,4 +1,16 @@
 ---
+interface Props {
+  label?: string;
+  ctaText?: string;
+  ctaLink?: string;
+}
+
+const {
+  label = 'What we do',
+  ctaText = 'What we offer',
+  ctaLink = '/about#capabilities'
+} = Astro.props;
+
 const capabilities = [
   {
     name: 'Branding',
@@ -30,12 +42,12 @@ const capabilities = [
 <section class="capabilities" data-bg="var(--color-paper)">
   <div class="capabilities-inner">
     <header class="capabilities-header">
-      <span class="section-label" data-animate>Capabilities</span>
+      <span class="section-label" data-animate>{label}</span>
       <p class="section-description" data-animate style="--stagger: 1">
         Full-service creative expertise spanning brand strategy to final production. We craft cohesive experiences across every touchpoint.
       </p>
-      <a href="/about#capabilities" class="section-cta" data-animate style="--stagger: 2">
-        What we offer
+      <a href={ctaLink} class="section-cta" data-animate style="--stagger: 2">
+        {ctaText}
         <svg class="cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>

@@ -23,6 +23,17 @@ const serviceLabels: Record<string, string> = {
   'photography': 'Photography',
 };
 
+// Homepage gallery configuration - edit src/data/homepage.json to customize
+import homepageConfig from '@/data/homepage.json';
+
+type GalleryConfig = typeof homepageConfig;
+type ProjectId = keyof GalleryConfig['gallery'];
+
+const getGalleryImages = (projectId: string): [number, number] => {
+  const custom = homepageConfig.gallery[projectId as ProjectId];
+  return (custom ?? homepageConfig.defaults.galleryImages) as [number, number];
+};
+
 // Create project groups: each project with placeholder additional images
 // (Using the same thumbnail as placeholders until more images are added)
 interface ProjectGroup {
@@ -97,48 +108,56 @@ const projectGroups: ProjectGroup[] = displayProjects.map((project, index) => ({
               </a>
             </article>
 
-            {/* Secondary Images (placeholders using same thumbnail) */}
-            <article
-              class="gallery-item gallery-item--secondary"
-              data-group={groupNumber}
-            >
-              <a href={`/projects/${project.id}`} class="project-link">
-                <div class="project-secondary-wrapper">
-                  <Image
-                    src={thumbnail}
-                    alt={`${title} detail`}
-                    widths={[300, 450, 600]}
-                    sizes="(max-width: 768px) 60vw, 280px"
-                    inferSize={true}
-                    class="project-secondary-image"
-                  />
-                  <div class="project-overlay">
-                    <span class="project-view">View</span>
-                  </div>
-                </div>
-              </a>
-            </article>
+            {/* Secondary Images from gallery - configured in src/data/homepage.json */}
+            {(() => {
+              const [idx1, idx2] = getGalleryImages(project.id);
+              const gallery = project.data.gallery;
+              return (
+                <>
+                  {gallery && gallery[idx1] && (
+                    <article
+                      class="gallery-item gallery-item--secondary"
+                      data-group={groupNumber}
+                    >
+                      <a href={`/projects/${project.id}`} class="project-link">
+                        <div class="project-secondary-wrapper">
+                          <img
+                            src={gallery[idx1]}
+                            alt={`${title} detail`}
+                            loading="lazy"
+                            class="project-secondary-image"
+                          />
+                          <div class="project-overlay">
+                            <span class="project-view">View</span>
+                          </div>
+                        </div>
+                      </a>
+                    </article>
+                  )}
 
-            <article
-              class="gallery-item gallery-item--secondary"
-              data-group={groupNumber}
-            >
-              <a href={`/projects/${project.id}`} class="project-link">
-                <div class="project-secondary-wrapper">
-                  <Image
-                    src={thumbnail}
-                    alt={`${title} detail`}
-                    widths={[300, 450, 600]}
-                    sizes="(max-width: 768px) 60vw, 280px"
-                    inferSize={true}
-                    class="project-secondary-image"
-                  />
-                  <div class="project-overlay">
-                    <span class="project-view">View</span>
-                  </div>
-                </div>
-              </a>
-            </article>
+                  {gallery && gallery[idx2] && (
+                    <article
+                      class="gallery-item gallery-item--secondary"
+                      data-group={groupNumber}
+                    >
+                      <a href={`/projects/${project.id}`} class="project-link">
+                        <div class="project-secondary-wrapper">
+                          <img
+                            src={gallery[idx2]}
+                            alt={`${title} detail`}
+                            loading="lazy"
+                            class="project-secondary-image"
+                          />
+                          <div class="project-overlay">
+                            <span class="project-view">View</span>
+                          </div>
+                        </div>
+                      </a>
+                    </article>
+                  )}
+                </>
+              );
+            })()}
           </>
         );
       })}
