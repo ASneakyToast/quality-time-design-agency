@@ -1,39 +1,39 @@
 /*
  * Quality Time - Color System
- * Collins-inspired: refined off-tones with vibrant orange accent
+ * Collins-inspired: refined off-tones with vibrant red accent
  */
 
 :root {
-  /* Base palette - Collins-inspired */
-  --color-ink: #140700;
+  /* Base palette */
+  --color-ink: #0f1a2a;
   --color-paper: #f8f8f7;
   --color-cream: #f0efed;
   --color-stone: #e5e4e1;
 
   /* Mid-tones for subtle differentiation */
-  --color-mid-black: #5e5855;
+  --color-mid-black: #3d5a7a;
   --color-mid-white: #d0d0c8;
 
-  /* Grays - warm undertones */
-  --color-gray-100: #f5f4f2;
-  --color-gray-200: #e8e7e4;
-  --color-gray-300: #d5d3cf;
-  --color-gray-400: #a8a49c;
-  --color-gray-500: #7a756c;
-  --color-gray-600: #5e5855;
-  --color-gray-700: #3d3935;
-  --color-gray-800: #252220;
-  --color-gray-900: #1a1815;
+  /* Grays - cool blue undertones */
+  --color-gray-100: #f5f6f7;
+  --color-gray-200: #e6e9ec;
+  --color-gray-300: #d0d5db;
+  --color-gray-400: #9aa5b1;
+  --color-gray-500: #6b7a8a;
+  --color-gray-600: #4a5a6a;
+  --color-gray-700: #334455;
+  --color-gray-800: #1f2d3d;
+  --color-gray-900: #141e2a;
 
-  /* Accent - vibrant orange (Collins "Brian orange") */
-  --color-accent: #ff7600;
-  --color-accent-light: #ff9033;
-  --color-accent-dark: #e66a00;
-  --color-accent-muted: #cc6b1a;
+  /* Accent - vibrant red */
+  --color-accent: #DC2626;
+  --color-accent-light: #EF4444;
+  --color-accent-dark: #B91C1C;
+  --color-accent-muted: #991B1B;
 
   /* Overlay colors for blur effects */
   --color-overlay-light: rgba(248, 248, 247, 0.88);
-  --color-overlay-dark: rgba(20, 7, 0, 0.88);
+  --color-overlay-dark: rgba(15, 26, 42, 0.88);
 
   /* Semantic - Light mode */
   --color-text-primary: var(--color-ink);

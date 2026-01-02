@@ -34,8 +34,8 @@ const capabilities = [
       <p class="section-description" data-animate style="--stagger: 1">
         Full-service creative expertise spanning brand strategy to final production. We craft cohesive experiences across every touchpoint.
       </p>
-      <a href="/capabilities" class="section-cta" data-animate style="--stagger: 2">
-        Explore our capabilities
+      <a href="/about" class="section-cta" data-animate style="--stagger: 2">
+        What we offer
         <svg class="cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
@@ -108,15 +108,18 @@ const capabilities = [
     padding: var(--space-3) var(--space-6);
     border-radius: var(--radius-full);
     text-decoration: none;
+    cursor: pointer;
     transition:
       gap 0.4s cubic-bezier(0.25, 0.1, 0.25, 1),
-      background-color 0.35s ease-out;
+      background-color 0.35s ease-out,
+      color 0.35s ease-out;
   }
 
   .section-cta:hover {
     opacity: 1;
     gap: var(--space-4);
     background-color: var(--color-accent);
+    color: var(--color-paper);
   }
 
   .cta-arrow {
@@ -140,8 +143,8 @@ const capabilities = [
     height: 100%;
     background: radial-gradient(
       ellipse 350px 250px at center,
-      rgba(255, 118, 0, 0.18) 0%,
-      rgba(255, 118, 0, 0.08) 40%,
+      rgba(220, 38, 38, 0.18) 0%,
+      rgba(220, 38, 38, 0.08) 40%,
       transparent 70%
     );
     filter: blur(20px);
