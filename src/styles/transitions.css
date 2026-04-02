@@ -40,7 +40,6 @@
 
 ::view-transition-new(root) {
   animation: page-enter 0.5s var(--view-transition-easing) forwards;
-  animation-delay: 0.1s;
 }
 
 /* Persistent elements - no animation */
@@ -50,12 +49,6 @@
 ::view-transition-new(footer) {
   animation: none;
   mix-blend-mode: normal;
-}
-
-/* Hero morphing transitions */
-::view-transition-group(page-hero) {
-  animation-duration: 0.5s;
-  animation-timing-function: var(--view-transition-easing);
 }
 
 /* Loading state */

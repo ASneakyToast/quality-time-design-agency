@@ -12,7 +12,7 @@ const { project, index = 0, priority = false } = Astro.props;
 const { title, thumbnail } = project.data;
 ---
 
-<article class="card" style={`--index: ${index}`} data-animate style={`--stagger: ${index}`}>
+<article class="card">
   <a href={`/projects/${project.id}`} class="card-link">
     <div class="card-image-wrapper">
       <Image

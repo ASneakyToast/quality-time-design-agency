@@ -19,14 +19,14 @@ for (const designer of sortedDesigners) {
 }
 ---
 
-<section class="designers" data-bg="var(--color-ink)" data-bg-dark>
+<section class="designers">
   <div class="designers-inner">
     <header class="designers-header">
-      <span class="section-label" data-animate>The Team</span>
-      <p class="section-description" data-animate style="--stagger: 1">
+      <span class="section-label">The Team</span>
+      <p class="section-description">
         Independent thinkers and collaborative makers. The people behind the pixels and the craft behind the concepts.
       </p>
-      <a href="/team" class="section-cta" data-animate style="--stagger: 2">
+      <a href="/team" class="section-cta">
         Meet the team
         <svg class="cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -38,7 +38,7 @@ for (const designer of sortedDesigners) {
       {sortedDesigners.map((designer, index) => {
         const projects = designerProjects.get(designer.id) || [];
         return (
-          <article class="designer-card" data-animate style={`--stagger: ${index + 2}`}>
+          <article class="designer-card">
             <div class="designer-avatar">
               <span class="avatar-initial">{designer.data.name.charAt(0)}</span>
             </div>

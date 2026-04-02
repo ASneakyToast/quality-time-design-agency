@@ -57,7 +57,6 @@ const showLogo = !isSelfInitiated && clientLogo;
 <article
   class="spine"
   style={`--bg-color: ${bgColor}; --text-color: ${textColor}; --height: ${height}px; --index: ${index}`}
-  data-animate
 >
   <a href={`/projects/${project.id}`} class="spine-link">
     <span class="spine-title">{title}</span>
@@ -143,24 +142,6 @@ const showLogo = !isSelfInitiated && clientLogo;
     filter: brightness(0) invert(1);
   }
 
-  /* Staggered animation */
-  .spine {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  .spine.is-visible {
-    animation: spineReveal 0.5s var(--ease-out) forwards;
-    animation-delay: calc(var(--index) * 60ms);
-  }
-
-  @keyframes spineReveal {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
   /* Responsive */
   @media (max-width: 768px) {
     .spine {
@@ -194,17 +175,11 @@ const showLogo = !isSelfInitiated && clientLogo;
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .spine {
-      opacity: 1;
-      transform: none;
       transition: filter var(--duration-fast) var(--ease-out);
     }
 
     .spine:hover {
       transform: none;
-    }
-
-    .spine.is-visible {
-      animation: none;
     }
   }
 </style>

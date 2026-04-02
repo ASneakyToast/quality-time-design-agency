@@ -16,7 +16,7 @@ const sortedClientProjects = clientProjects.sort((a, b) =>
 
 <BaseLayout>
   <!-- Collins-inspired Immersive Hero -->
-  <section class="hero" data-bg="var(--color-paper)">
+  <section class="hero">
     <div class="hero-content">
       <h1 class="hero-title">
         <span class="hero-line" style="--delay: 0.1s">Quality</span>
@@ -209,23 +209,3 @@ const sortedClientProjects = clientProjects.sort((a, b) =>
   }
 </style>
 
-<script>
-  // Scroll-triggered reveal animations
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
-
-  document.querySelectorAll('[data-animate]').forEach((el) => {
-    observer.observe(el);
-  });
-</script>

@@ -39,14 +39,14 @@ const capabilities = [
 ];
 ---
 
-<section class="capabilities" data-bg="var(--color-paper)">
+<section class="capabilities">
   <div class="capabilities-inner">
     <header class="capabilities-header">
-      <span class="section-label" data-animate>{label}</span>
-      <p class="section-description" data-animate style="--stagger: 1">
+      <span class="section-label">{label}</span>
+      <p class="section-description">
         Full-service creative expertise spanning brand strategy to final production. We craft cohesive experiences across every touchpoint.
       </p>
-      <a href={ctaLink} class="section-cta" data-animate style="--stagger: 2">
+      <a href={ctaLink} class="section-cta">
         {ctaText}
         <svg class="cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -60,7 +60,7 @@ const capabilities = [
 
       <ul class="capabilities-grid">
         {capabilities.map((capability, index) => (
-          <li class="capability-item" data-animate data-capability-index={index} style={`--stagger: ${index + 2}`}>
+          <li class="capability-item" data-capability-index={index}>
             <h3 class="capability-name">{capability.name}</h3>
             <p class="capability-description">{capability.description}</p>
           </li>

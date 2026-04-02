@@ -20,15 +20,15 @@ const services = [
 >
   <article class="contact">
     <!-- Hero -->
-    <header class="contact-hero" data-bg="var(--color-paper)">
+    <header class="contact-hero">
       <div class="contact-hero-content">
-        <span class="hero-label" data-animate>Contact</span>
-        <h1 class="contact-title" data-animate style="--stagger: 1">
+        <span class="hero-label">Contact</span>
+        <h1 class="contact-title">
           Let's start a
           <br />
           <em>conversation</em>
         </h1>
-        <p class="contact-intro" data-animate style="--stagger: 2">
+        <p class="contact-intro">
           Every great project begins with a simple hello. Whether you have a clear vision
           or just the seed of an idea, we'd love to hear from you.
         </p>
@@ -36,13 +36,13 @@ const services = [
     </header>
 
     <!-- Contact Methods -->
-    <section id="get-in-touch" class="contact-section" data-bg="var(--color-paper)">
+    <section id="get-in-touch" class="contact-section">
       <div class="section-grid">
         <div class="section-header">
-          <h2 class="section-label" data-animate>Get in Touch</h2>
+          <h2 class="section-label">Get in Touch</h2>
         </div>
         <div class="section-content">
-          <form name="contact" method="POST" data-netlify="true" class="contact-form" data-animate style="--stagger: 1">
+          <form name="contact" method="POST" data-netlify="true" class="contact-form">
             <input type="hidden" name="form-name" value="contact" />
             <div class="form-field">
               <label for="name">Name</label>
@@ -78,14 +78,14 @@ const services = [
     </section>
 
     <!-- What to Expect -->
-    <section class="contact-section expect-section" data-bg="var(--color-ink)" data-bg-dark>
+    <section class="contact-section expect-section">
       <div class="section-grid">
         <div class="section-header">
-          <h2 class="section-label" data-animate>What to Expect</h2>
+          <h2 class="section-label">What to Expect</h2>
         </div>
         <div class="section-content">
           <div class="expect-list">
-            <div class="expect-item" data-animate style="--stagger: 1">
+            <div class="expect-item">
               <span class="expect-number">01</span>
               <h3 class="expect-title">Initial Chat</h3>
               <p class="expect-description">
@@ -93,7 +93,7 @@ const services = [
                 No commitment required—just a friendly conversation.
               </p>
             </div>
-            <div class="expect-item" data-animate style="--stagger: 2">
+            <div class="expect-item">
               <span class="expect-number">02</span>
               <h3 class="expect-title">Proposal</h3>
               <p class="expect-description">
@@ -101,7 +101,7 @@ const services = [
                 approach, deliverables, and investment.
               </p>
             </div>
-            <div class="expect-item" data-animate style="--stagger: 3">
+            <div class="expect-item">
               <span class="expect-number">03</span>
               <h3 class="expect-title">Kick Off</h3>
               <p class="expect-description">
@@ -115,13 +115,13 @@ const services = [
     </section>
 
     <!-- CTA -->
-    <section class="cta-section" data-bg="var(--color-ink)" data-bg-dark>
+    <section class="cta-section">
       <div class="cta-inner">
-        <h2 class="cta-title" data-animate>Ready to begin?</h2>
-        <p class="cta-text" data-animate style="--stagger: 1">
+        <h2 class="cta-title">Ready to begin?</h2>
+        <p class="cta-text">
           Fill out the form above and let's explore what's possible.
         </p>
-        <a href="#get-in-touch" class="cta-button" data-animate style="--stagger: 2">
+        <a href="#get-in-touch" class="cta-button">
           Send us an email
           <svg class="cta-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 19V5M5 12l7-7 7 7"/>
@@ -313,17 +313,6 @@ const services = [
     transform: translateX(4px);
   }
 
-  /* Dark mode button */
-  :global([data-theme="dark"]) .form-submit {
-    background-color: var(--color-paper);
-    color: var(--color-ink);
-  }
-
-  :global([data-theme="dark"]) .form-submit:hover {
-    background-color: var(--color-accent);
-    color: var(--color-paper);
-  }
-
   /* ==========================================================================
      What to Expect
      ========================================================================== */
@@ -426,17 +415,6 @@ const services = [
 
   .cta-button:hover .cta-arrow {
     transform: translateX(4px);
-  }
-
-  /* Dark mode button */
-  :global([data-theme="dark"]) .cta-button {
-    background-color: var(--color-paper);
-    color: var(--color-ink);
-  }
-
-  :global([data-theme="dark"]) .cta-button:hover {
-    background-color: var(--color-accent);
-    color: var(--color-paper);
   }
 
   /* ==========================================================================

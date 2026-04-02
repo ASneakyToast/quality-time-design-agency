@@ -18,15 +18,15 @@ const sortedProjects = projects.sort(
 >
   <section class="projects-section">
     <header class="section-header">
-      <span class="section-label" data-animate>Projects</span>
-      <p class="section-description" data-animate style="--stagger: 1">
+      <span class="section-label">Projects</span>
+      <p class="section-description">
         Selected work across branding, publishing, and design.
       </p>
     </header>
 
     <div class="projects-grid">
       {sortedProjects.map((project, index) => (
-        <article class="project-item" data-animate style={`--stagger: ${index % 4}`}>
+        <article class="project-item">
           <a href={`/projects/${project.id}`} class="project-link">
             <div class="project-image-wrapper">
               <Image

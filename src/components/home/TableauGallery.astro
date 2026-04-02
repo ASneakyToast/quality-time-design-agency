@@ -24,15 +24,15 @@ const serviceLabels: Record<string, string> = {
 };
 ---
 
-<section class="tableau" data-bg="var(--color-ink)" data-bg-dark>
+<section class="tableau">
   <div class="tableau-header-wrap">
     <div class="tableau-header-inner">
       <header class="tableau-header">
-        <span class="section-label" data-animate>Selected Work</span>
-        <p class="section-description" data-animate style="--stagger: 1">
+        <span class="section-label">Selected Work</span>
+        <p class="section-description">
           A curated selection of projects where strategy meets craft. Each one a testament to what thoughtful design can achieve.
         </p>
-        <a href="/projects" class="section-cta" data-animate style="--stagger: 2">
+        <a href="/projects" class="section-cta">
           View all projects
           <svg class="cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -49,8 +49,7 @@ const serviceLabels: Record<string, string> = {
       return (
         <article
           class:list={["tableau-item", { "tableau-item--reversed": isReversed }]}
-          data-animate
-          style={`--stagger: ${index + 2}; --accent: ${accentColor || 'var(--color-ink)'}`}
+          style={`--accent: ${accentColor || 'var(--color-ink)'}`}
         >
           <a href={`/projects/${project.id}`} class="tableau-link">
             <div class="tableau-info">
@@ -177,38 +176,6 @@ const serviceLabels: Record<string, string> = {
 
   .tableau-item {
     width: 100%;
-  }
-
-  /* Collins-style scroll reveal for tableau items */
-  .tableau-item .tableau-info {
-    opacity: 0;
-    transform: translateY(60px);
-    transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
-  }
-
-  .tableau-item .tableau-media {
-    opacity: 0;
-    transform: translateY(80px);
-    transition: opacity 1s var(--ease-out) 0.15s, transform 1s var(--ease-out) 0.15s;
-  }
-
-  .tableau-item.is-visible .tableau-info {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .tableau-item.is-visible .tableau-media {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Reversed items animate from opposite direction */
-  .tableau-item--reversed .tableau-info {
-    transform: translateY(60px);
-  }
-
-  .tableau-item--reversed .tableau-media {
-    transform: translateY(80px);
   }
 
   .tableau-link {
@@ -395,13 +362,4 @@ const serviceLabels: Record<string, string> = {
     }
   }
 
-  /* Reduced motion support */
-  @media (prefers-reduced-motion: reduce) {
-    .tableau-item .tableau-info,
-    .tableau-item .tableau-media {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-  }
 </style>
