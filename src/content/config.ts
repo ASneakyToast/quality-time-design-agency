@@ -7,14 +7,14 @@ const projectsCollection = defineCollection({
     base: './src/content/projects',
     generateId: ({ entry }) => entry.split('/')[0],
   }),
-  schema: () =>
+  schema: ({ image }) =>
     z.object({
       title: z.string(),
       client: z.string(),
       year: z.number().min(2000).max(2030),
-      heroImage: z.string(),
-      thumbnail: z.string(),
-      gallery: z.array(z.string()).optional(),
+      heroImage: image(),
+      thumbnail: image(),
+      gallery: z.array(image()).optional(),
       services: z.array(
         z.enum([
           'branding',
