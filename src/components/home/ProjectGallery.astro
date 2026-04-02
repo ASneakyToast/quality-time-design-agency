@@ -34,6 +34,13 @@ const getGalleryImages = (projectId: string): [number, number] => {
   return (custom ?? homepageConfig.defaults.galleryImages) as [number, number];
 };
 
+const VIDEO_EXTENSIONS = new Set(['.mp4', '.webm', '.ogg', '.mov']);
+const isVideo = (item: unknown): item is string => {
+  if (typeof item !== 'string') return false;
+  const ext = item.slice(item.lastIndexOf('.')).toLowerCase();
+  return VIDEO_EXTENSIONS.has(ext);
+};
+
 // Create project groups: each project with placeholder additional images
 // (Using the same thumbnail as placeholders until more images are added)
 interface ProjectGroup {
@@ -121,12 +128,26 @@ const projectGroups: ProjectGroup[] = displayProjects.map((project, index) => ({
                     >
                       <a href={`/projects/${project.id}`} class="project-link">
                         <div class="project-secondary-wrapper">
-                          <img
-                            src={gallery[idx1]}
-                            alt={`${title} detail`}
-                            loading="lazy"
-                            class="project-secondary-image"
-                          />
+                          {isVideo(gallery[idx1]) ? (
+                            <video
+                              src={gallery[idx1]}
+                              autoplay
+                              muted
+                              loop
+                              playsinline
+                              class="project-secondary-image"
+                            />
+                          ) : (
+                            <Image
+                              src={gallery[idx1]}
+                              alt={`${title} detail`}
+                              widths={[300, 500, 700]}
+                              sizes="(max-width: 768px) 65vw, 300px"
+                              inferSize={true}
+                              loading="lazy"
+                              class="project-secondary-image"
+                            />
+                          )}
                           <div class="project-overlay">
                             <span class="project-view">View</span>
                           </div>
@@ -142,12 +163,26 @@ const projectGroups: ProjectGroup[] = displayProjects.map((project, index) => ({
                     >
                       <a href={`/projects/${project.id}`} class="project-link">
                         <div class="project-secondary-wrapper">
-                          <img
-                            src={gallery[idx2]}
-                            alt={`${title} detail`}
-                            loading="lazy"
-                            class="project-secondary-image"
-                          />
+                          {isVideo(gallery[idx2]) ? (
+                            <video
+                              src={gallery[idx2]}
+                              autoplay
+                              muted
+                              loop
+                              playsinline
+                              class="project-secondary-image"
+                            />
+                          ) : (
+                            <Image
+                              src={gallery[idx2]}
+                              alt={`${title} detail`}
+                              widths={[300, 500, 700]}
+                              sizes="(max-width: 768px) 65vw, 300px"
+                              inferSize={true}
+                              loading="lazy"
+                              class="project-secondary-image"
+                            />
+                          )}
                           <div class="project-overlay">
                             <span class="project-view">View</span>
                           </div>
