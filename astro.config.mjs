@@ -15,7 +15,6 @@ export default defineConfig({
       pathname: '/quality-time-assets/**'
     }]
   },
-  prefetch: false,
   build: {
     inlineStylesheets: 'auto',
   },

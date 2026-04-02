@@ -31,7 +31,7 @@ const projectsCollection = defineCollection({
       featured: z.boolean().default(false),
       order: z.number().optional(),
       accentColor: z.string().optional(),
-      clientLogo: z.string().optional(),
+      clientLogo: z.string().url().optional(),
       description: z.string().max(200),
       publishedDate: z.coerce.date(),
       liveUrl: z.string().url().optional(),
@@ -56,7 +56,7 @@ const designersCollection = defineCollection({
       name: z.string(),
       role: z.string(),
       bio: z.string(),
-      photo: z.string().optional(),
+      photo: z.string().url().optional(),
       email: z.string().email().optional(),
       website: z.string().url().optional(),
       social: z
