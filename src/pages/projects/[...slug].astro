@@ -89,19 +89,28 @@ const nextProject = allProjects[(currentIndex + 1) % allProjects.length];
     {gallery && gallery.length > 0 && (
       <section class="project-gallery">
         <div class="gallery-grid">
-          {gallery.map((image, index) => (
-            <div class="gallery-item">
-              <Image
-                src={image}
-                alt={`${title} gallery image ${index + 1}`}
-                widths={[600, 900, 1200]}
-                sizes="(max-width: 768px) 100vw, 50vw"
-                loading="lazy"
-                inferSize={true}
-                class="gallery-img"
-              />
-            </div>
-          ))}
+          {gallery.map((item, index) => {
+            const isVideo = typeof item === 'string' && /\.(mp4|webm|mov)$/i.test(item);
+            const isStringImage = typeof item === 'string' && !isVideo;
+            return (
+              <div class={`gallery-item${isVideo ? ' gallery-item--video' : ''}`}>
+                {isVideo ? (
+                  <video src={item} autoplay muted loop playsinline class="gallery-img" />
+                ) : isStringImage ? (
+                  <img src={item} alt={`${title} gallery image ${index + 1}`} loading="lazy" class="gallery-img" />
+                ) : (
+                  <Image
+                    src={item as any}
+                    alt={`${title} gallery image ${index + 1}`}
+                    widths={[600, 900, 1200]}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    loading="lazy"
+                    class="gallery-img"
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
     )}
@@ -333,6 +342,12 @@ const nextProject = allProjects[(currentIndex + 1) % allProjects.length];
   }
 
   .gallery-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .gallery-item--video video {
     width: 100%;
     height: auto;
     display: block;

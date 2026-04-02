@@ -14,7 +14,7 @@ const projectsCollection = defineCollection({
       year: z.number().min(2000).max(2030),
       heroImage: image(),
       thumbnail: image(),
-      gallery: z.array(image()).optional(),
+      gallery: z.array(z.union([image(), z.string()])).optional(),
       services: z.array(
         z.enum([
           'branding',
