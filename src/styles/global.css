@@ -38,8 +38,16 @@ body {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1, h3, h4, h5, h6 {
   font-family: var(--font-display);
+  font-weight: var(--font-regular);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tighter);
+  text-wrap: balance;
+}
+
+h2 {
+  font-family: var(--font-serif);
   font-weight: var(--font-regular);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tighter);

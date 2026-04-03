@@ -39,6 +39,16 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
               </div>
               <div class="ds-font-meta">
                 <span class="ds-token-name">--font-display</span>
+                <span class="ds-font-name">Host Grotesk</span>
+                <span class="ds-font-fallback">-apple-system, BlinkMacSystemFont, sans-serif</span>
+              </div>
+            </div>
+            <div class="ds-font-card">
+              <div class="ds-font-specimen ds-font-specimen--serif">
+                Aa Bb Cc
+              </div>
+              <div class="ds-font-meta">
+                <span class="ds-token-name">--font-serif</span>
                 <span class="ds-font-name">Instrument Serif</span>
                 <span class="ds-font-fallback">Times New Roman, Georgia, serif</span>
               </div>
@@ -49,7 +59,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
               </div>
               <div class="ds-font-meta">
                 <span class="ds-token-name">--font-body</span>
-                <span class="ds-font-name">Satoshi</span>
+                <span class="ds-font-name">Roboto Flex</span>
                 <span class="ds-font-fallback">-apple-system, BlinkMacSystemFont, sans-serif</span>
               </div>
             </div>
@@ -957,6 +967,11 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
   .ds-font-specimen--display {
     font-family: var(--font-display);
+    font-weight: var(--font-regular);
+  }
+
+  .ds-font-specimen--serif {
+    font-family: var(--font-serif);
     font-weight: var(--font-regular);
   }
 
