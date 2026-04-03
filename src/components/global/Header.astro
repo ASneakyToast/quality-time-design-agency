@@ -44,9 +44,11 @@ const currentPath = Astro.url.pathname;
       backdrop-filter var(--duration-normal) var(--ease-out);
   }
 
-  /* When body is in dark theme, use dark overlay */
-  :global(body[data-theme="dark"]) .header {
-    --header-overlay: var(--color-overlay-dark);
+  /* When system is in dark mode, use dark overlay */
+  @media (prefers-color-scheme: dark) {
+    .header {
+      --header-overlay: var(--color-overlay-dark);
+    }
   }
 
   /* Scrolled state with blur backdrop (Collins-style) */
