@@ -17,82 +17,192 @@ const sortedProjects = projects.sort(
   description="Selected projects and collaborations from Quality Time design collective."
 >
   <section class="projects-section">
-    <header class="section-header">
-      <span class="section-label">Projects</span>
-      <p class="section-description">
-        Selected work across branding, publishing, and design.
-      </p>
-    </header>
+    <div class="projects-header">
+      <div class="view-toggle" data-projects-toggle role="group" aria-label="View mode">
+        <button
+          type="button"
+          class="toggle-option"
+          data-view="grid"
+          aria-pressed="true"
+        >
+          <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="1" y="1" width="6" height="6" rx="1" />
+            <rect x="9" y="1" width="6" height="6" rx="1" />
+            <rect x="1" y="9" width="6" height="6" rx="1" />
+            <rect x="9" y="9" width="6" height="6" rx="1" />
+          </svg>
+          <span>Grid</span>
+        </button>
+        <button
+          type="button"
+          class="toggle-option"
+          data-view="list"
+          aria-pressed="false"
+        >
+          <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="1" y1="3" x2="15" y2="3" />
+            <line x1="1" y1="8" x2="15" y2="8" />
+            <line x1="1" y1="13" x2="15" y2="13" />
+          </svg>
+          <span>List</span>
+        </button>
+        <div class="toggle-indicator" data-indicator></div>
+      </div>
+    </div>
 
-    <div class="projects-grid">
-      {sortedProjects.map((project, index) => (
-        <article class="project-item">
-          <a href={`/projects/${project.id}`} class="project-link">
-            <div class="project-image-wrapper">
-              <Image
-                src={project.data.thumbnail}
-                alt={`${project.data.title} project thumbnail`}
-                widths={[300, 400, 500, 600]}
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                loading={index < 8 ? 'eager' : 'lazy'}
-                inferSize={true}
-                class="project-image"
-              />
-            </div>
-            <div class="project-info">
-              <h3 class="project-title">{project.data.title}</h3>
-            </div>
-          </a>
-        </article>
-      ))}
+    <div class="projects-container" data-projects-container data-view="grid">
+      <div class="projects-grid">
+        {sortedProjects.map((project, index) => (
+          <article class="project-item">
+            <a href={`/projects/${project.id}`} class="project-link">
+              <span class="project-index">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <div class="project-image-wrapper">
+                <Image
+                  src={project.data.thumbnail}
+                  alt={`${project.data.title} project thumbnail`}
+                  widths={[300, 400, 500, 600]}
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  loading={index < 8 ? 'eager' : 'lazy'}
+                  inferSize={true}
+                  class="project-image"
+                />
+              </div>
+              <div class="project-info">
+                <h3 class="project-title">{project.data.title}</h3>
+                <div class="project-meta">
+                  {project.data.client && (
+                    <span class="meta-client">{project.data.client}</span>
+                  )}
+                  {project.data.client && project.data.year && (
+                    <span class="meta-sep">·</span>
+                  )}
+                  {project.data.year && (
+                    <span class="meta-year">{project.data.year}</span>
+                  )}
+                  {project.data.services && project.data.services.length > 0 && (
+                    <div class="meta-services">
+                      {project.data.services.map((s: string) => (
+                        <span class="service-tag">{s}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
   /* ==========================================================================
-     Projects Section - IN-FO.CO Style Dense Grid
+     Projects Section
      ========================================================================== */
   .projects-section {
     padding: var(--space-24) var(--gutter) var(--section-gap);
   }
 
-  .section-header {
-    margin-bottom: var(--space-16);
-  }
-
-  .section-label {
-    display: block;
-    font-family: var(--font-body);
-    font-size: var(--text-xs);
-    font-weight: var(--font-semibold);
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-4);
-  }
-
-  .section-description {
-    font-family: var(--font-display);
-    font-size: var(--text-2xl);
-    font-weight: var(--font-regular);
-    line-height: var(--leading-snug);
-    letter-spacing: var(--tracking-tight);
-    color: var(--color-text-primary);
-    max-width: 28ch;
+  /* ==========================================================================
+     Header with toggle
+     ========================================================================== */
+  .projects-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-bottom: var(--space-8);
   }
 
   /* ==========================================================================
-     Dense Grid Layout - 4 columns on desktop, 3 on tablet, 2 on mobile
+     View Toggle — pill + sliding indicator (mirrors ViewToggle.astro)
+     ========================================================================== */
+  .view-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    padding: 4px;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .toggle-option {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: color var(--duration-fast) var(--ease-out);
+    white-space: nowrap;
+  }
+
+  .toggle-option:hover {
+    color: var(--color-text-primary);
+  }
+
+  .toggle-option[aria-pressed="true"] {
+    color: var(--color-text-primary);
+  }
+
+  .toggle-option:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .toggle-icon {
+    flex-shrink: 0;
+  }
+
+  .toggle-indicator {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    height: calc(100% - 8px);
+    background: var(--color-bg-primary);
+    border-radius: var(--radius-full);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform var(--duration-normal) var(--ease-spring),
+                width var(--duration-normal) var(--ease-spring);
+    pointer-events: none;
+  }
+
+  @media (max-width: 640px) {
+    .toggle-option span {
+      display: none;
+    }
+
+    .toggle-option {
+      padding: var(--space-2) var(--space-3);
+    }
+  }
+
+  /* ==========================================================================
+     Dense Grid Layout — 4 columns on desktop, 3 on tablet, 2 on mobile
      ========================================================================== */
   .projects-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: var(--space-4);
+    transition: opacity var(--duration-fast) var(--ease-out);
   }
 
   /* ==========================================================================
-     Project Item
+     Project Item — base (grid view)
      ========================================================================== */
   .project-item {
     position: relative;
@@ -144,8 +254,107 @@ const sortedProjects = projects.sort(
     color: var(--color-accent);
   }
 
+  /* Hidden in grid view */
+  .project-index {
+    display: none;
+  }
+
+  .project-meta {
+    display: none;
+  }
+
   /* ==========================================================================
-     Responsive
+     List View — "Design Annual Index" editorial rows
+     ========================================================================== */
+  [data-projects-container][data-view="list"] .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  [data-projects-container][data-view="list"] .project-item {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  [data-projects-container][data-view="list"] .project-link {
+    display: grid;
+    grid-template-columns: 2rem 80px 1fr;
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-5) 0;
+    transition: background var(--duration-fast) var(--ease-out),
+                padding var(--duration-fast) var(--ease-out);
+  }
+
+  [data-projects-container][data-view="list"] .project-link:hover {
+    background: var(--color-bg-secondary);
+    padding-inline: var(--space-3);
+    margin-inline: calc(-1 * var(--space-3));
+  }
+
+  [data-projects-container][data-view="list"] .project-image-wrapper {
+    aspect-ratio: 1 / 1;
+    width: 80px;
+    flex-shrink: 0;
+  }
+
+  [data-projects-container][data-view="list"] .project-index {
+    display: block;
+    font-family: var(--font-mono, monospace);
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    letter-spacing: var(--tracking-wide, 0.05em);
+  }
+
+  [data-projects-container][data-view="list"] .project-info {
+    padding: 0;
+  }
+
+  [data-projects-container][data-view="list"] .project-title {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: var(--font-normal, 400);
+  }
+
+  [data-projects-container][data-view="list"] .project-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-top: var(--space-1);
+  }
+
+  .meta-client,
+  .meta-year {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .meta-sep {
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+  }
+
+  .meta-services {
+    display: flex;
+    gap: var(--space-1);
+    flex-wrap: wrap;
+    margin-left: var(--space-2);
+  }
+
+  .service-tag {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    padding: 2px var(--space-2);
+    white-space: nowrap;
+  }
+
+  /* ==========================================================================
+     Responsive — Grid
      ========================================================================== */
   @media (max-width: 1024px) {
     .projects-grid {
@@ -163,10 +372,6 @@ const sortedProjects = projects.sort(
       gap: var(--space-3);
     }
 
-    .section-description {
-      font-size: var(--text-xl);
-    }
-
     .project-title {
       font-size: var(--text-xs);
     }
@@ -181,5 +386,82 @@ const sortedProjects = projects.sort(
       padding: var(--space-2) 0;
     }
   }
+
+  /* ==========================================================================
+     Responsive — List view on mobile
+     ========================================================================== */
+  @media (max-width: 640px) {
+    [data-projects-container][data-view="list"] .project-link {
+      grid-template-columns: 56px 1fr;
+    }
+
+    [data-projects-container][data-view="list"] .project-index {
+      display: none;
+    }
+
+    .meta-services {
+      display: none;
+    }
+  }
 </style>
 
+<script>
+  function initProjectsToggle() {
+    const toggle = document.querySelector('[data-projects-toggle]') as HTMLElement | null;
+    const container = document.querySelector('[data-projects-container]') as HTMLElement | null;
+    if (!toggle || !container) return;
+
+    const buttons = toggle.querySelectorAll('.toggle-option') as NodeListOf<HTMLButtonElement>;
+    const indicator = toggle.querySelector('[data-indicator]') as HTMLElement | null;
+
+    function updateIndicator(btn: HTMLButtonElement) {
+      if (!indicator) return;
+      const rect = btn.getBoundingClientRect();
+      const toggleRect = toggle!.getBoundingClientRect();
+      indicator.style.width = `${rect.width}px`;
+      indicator.style.transform = `translateX(${rect.left - toggleRect.left - 4}px)`;
+    }
+
+    function setView(view: string, animate = true) {
+      if (!animate && indicator) {
+        indicator.style.transition = 'none';
+        // Re-enable after paint
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            if (indicator) indicator.style.transition = '';
+          });
+        });
+      }
+
+      buttons.forEach(btn => {
+        const isActive = btn.dataset.view === view;
+        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        if (isActive) updateIndicator(btn);
+      });
+
+      container!.dataset.view = view;
+      localStorage.setItem('projects-view', view);
+    }
+
+    // Restore from localStorage
+    const savedView = localStorage.getItem('projects-view') || 'grid';
+    setView(savedView, false);
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => setView(btn.dataset.view!));
+    });
+
+    toggle.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        const cur = (toggle.querySelector('[aria-pressed="true"]') as HTMLButtonElement | null)?.dataset.view;
+        const next = cur === 'grid' ? 'list' : 'grid';
+        setView(next);
+        (toggle.querySelector(`[data-view="${next}"]`) as HTMLButtonElement | null)?.focus();
+      }
+    });
+  }
+
+  initProjectsToggle();
+  document.addEventListener('astro:page-load', initProjectsToggle);
+</script>
