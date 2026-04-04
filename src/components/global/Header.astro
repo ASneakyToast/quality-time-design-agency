@@ -1,5 +1,4 @@
 ---
-import LiveClock from './LiveClock.astro';
 import Navigation from './Navigation.astro';
 
 const currentPath = Astro.url.pathname;
@@ -18,7 +17,6 @@ const currentPath = Astro.url.pathname;
 
 
     <div class="header-right">
-      <LiveClock />
       <Navigation currentPath={currentPath} />
     </div>
   </div>
