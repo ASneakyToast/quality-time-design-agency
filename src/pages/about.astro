@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import Capabilities from '@/components/home/Capabilities.astro';
+import Capabilities from '@/components/global/Capabilities.astro';
 ---
 
 <BaseLayout
@@ -12,9 +12,7 @@ import Capabilities from '@/components/home/Capabilities.astro';
     <header class="about-hero">
       <div class="about-hero-content">
         <h1 class="about-title">
-          Quality Time is a San Francisco
-          <br />
-          <em>design collective</em>
+          Quality Time is an independent design studio and small press.
         </h1>
         <p class="about-intro">
           Founded by MFA design peers from California College of the Arts, our practice foregrounds
@@ -48,7 +46,8 @@ import Capabilities from '@/components/home/Capabilities.astro';
 
   .about-title {
     font-family: var(--font-display);
-    font-size: var(--text-display);
+    font-size: var(--text-5xl);
+    max-width: var(--container-lg);
     font-weight: var(--font-regular);
     line-height: var(--leading-display);
     letter-spacing: var(--tracking-tighter);
@@ -64,7 +63,7 @@ import Capabilities from '@/components/home/Capabilities.astro';
     font-size: var(--text-xl);
     line-height: var(--leading-relaxed);
     color: var(--color-text-secondary);
-    max-width: 45ch;
+
   }
 
   /* ==========================================================================
