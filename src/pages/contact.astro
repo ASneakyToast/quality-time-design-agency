@@ -22,11 +22,8 @@ const services = [
     <!-- Hero -->
     <header class="contact-hero">
       <div class="contact-hero-content">
-        <span class="hero-label">Contact</span>
         <h1 class="contact-title">
-          Let's start a
-          <br />
-          <em>conversation</em>
+          Let's connect
         </h1>
         <p class="contact-intro">
           Every great project begins with a simple hello. Whether you have a clear vision
@@ -77,58 +74,6 @@ const services = [
       </div>
     </section>
 
-    <!-- What to Expect -->
-    <section class="contact-section expect-section">
-      <div class="section-grid">
-        <div class="section-header">
-          <h2 class="section-label">What to Expect</h2>
-        </div>
-        <div class="section-content">
-          <div class="expect-list">
-            <div class="expect-item">
-              <span class="expect-number">01</span>
-              <h3 class="expect-title">Initial Chat</h3>
-              <p class="expect-description">
-                We'll schedule a brief call to learn about your project, goals, and timeline.
-                No commitment required—just a friendly conversation.
-              </p>
-            </div>
-            <div class="expect-item">
-              <span class="expect-number">02</span>
-              <h3 class="expect-title">Proposal</h3>
-              <p class="expect-description">
-                If we're a good fit, we'll put together a tailored proposal outlining our
-                approach, deliverables, and investment.
-              </p>
-            </div>
-            <div class="expect-item">
-              <span class="expect-number">03</span>
-              <h3 class="expect-title">Kick Off</h3>
-              <p class="expect-description">
-                Once aligned, we'll dive into discovery and begin the creative process
-                together. Quality work, here we come.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="cta-section">
-      <div class="cta-inner">
-        <h2 class="cta-title">Ready to begin?</h2>
-        <p class="cta-text">
-          Fill out the form above and let's explore what's possible.
-        </p>
-        <a href="#get-in-touch" class="cta-button">
-          Send us an email
-          <svg class="cta-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 19V5M5 12l7-7 7 7"/>
-          </svg>
-        </a>
-      </div>
-    </section>
   </article>
 </BaseLayout>
 
@@ -149,29 +94,11 @@ const services = [
     margin: 0 auto;
   }
 
-  .hero-label {
-    display: block;
-    font-family: var(--font-body);
-    font-size: var(--text-xs);
-    font-weight: var(--font-medium);
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-4);
-  }
-
-  .contact-title {
+.contact-title {
     font-family: var(--font-display);
-    font-size: var(--text-display);
-    font-weight: var(--font-regular);
-    line-height: var(--leading-display);
-    letter-spacing: var(--tracking-tighter);
+    font-size: var(--text-5xl);
+    max-width: var(--container-lg);
     margin-bottom: var(--space-8);
-  }
-
-  .contact-title em {
-    font-style: italic;
-    color: var(--color-text-secondary);
   }
 
   .contact-intro {
@@ -287,8 +214,8 @@ const services = [
     font-weight: var(--font-medium);
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
-    color: var(--color-paper);
-    background-color: var(--color-ink);
+    color: var(--color-text-inverse);
+    background-color: var(--color-bg-inverse);
     padding: var(--space-4) var(--space-8);
     border: none;
     border-radius: var(--radius-full);
@@ -314,110 +241,6 @@ const services = [
   }
 
   /* ==========================================================================
-     What to Expect
-     ========================================================================== */
-  .expect-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-12);
-  }
-
-  .expect-item {
-    max-width: 50ch;
-    position: relative;
-    padding-left: var(--space-12);
-  }
-
-  .expect-number {
-    position: absolute;
-    left: 0;
-    top: 0.1em;
-    font-family: var(--font-body);
-    font-size: var(--text-xs);
-    font-weight: var(--font-medium);
-    letter-spacing: var(--tracking-wide);
-    color: var(--color-accent);
-  }
-
-  .expect-title {
-    font-family: var(--font-display);
-    font-size: var(--text-2xl);
-    font-weight: var(--font-regular);
-    line-height: var(--leading-snug);
-    letter-spacing: var(--tracking-tight);
-    margin-bottom: var(--space-3);
-    color: var(--color-text-primary);
-  }
-
-  .expect-description {
-    font-size: var(--text-base);
-    line-height: var(--leading-relaxed);
-    color: var(--color-text-secondary);
-  }
-
-  /* ==========================================================================
-     CTA
-     ========================================================================== */
-  .cta-section {
-    padding: var(--section-gap) var(--gutter);
-    text-align: center;
-  }
-
-  .cta-inner {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .cta-title {
-    font-family: var(--font-display);
-    font-size: var(--text-4xl);
-    font-weight: var(--font-regular);
-    letter-spacing: var(--tracking-tight);
-    color: var(--color-text-primary);
-    margin-bottom: var(--space-4);
-  }
-
-  .cta-text {
-    font-size: var(--text-lg);
-    line-height: var(--leading-relaxed);
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-8);
-  }
-
-  .cta-button {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-3);
-    font-family: var(--font-body);
-    font-size: var(--text-base);
-    font-weight: var(--font-medium);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-    color: var(--color-ink);
-    background-color: var(--color-paper);
-    padding: var(--space-4) var(--space-8);
-    border-radius: var(--radius-full);
-    text-decoration: none;
-    transition:
-      gap var(--duration-fast) var(--ease-spring),
-      background-color var(--duration-fast) var(--ease-out);
-  }
-
-  .cta-button:hover {
-    opacity: 1;
-    gap: var(--space-4);
-    background-color: var(--color-accent);
-  }
-
-  .cta-arrow {
-    transition: transform var(--duration-fast) var(--ease-spring);
-  }
-
-  .cta-button:hover .cta-arrow {
-    transform: translateX(4px);
-  }
-
-  /* ==========================================================================
      Responsive
      ========================================================================== */
   @media (max-width: 1024px) {
@@ -437,20 +260,13 @@ const services = [
     }
 
     .contact-title {
-      font-size: var(--text-4xl);
+      font-size: var(--text-3xl);
     }
 
     .contact-intro {
       font-size: var(--text-lg);
     }
 
-    .expect-title {
-      font-size: var(--text-xl);
-    }
-
-    .cta-title {
-      font-size: var(--text-3xl);
-    }
   }
 </style>
 

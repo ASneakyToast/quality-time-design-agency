@@ -1,17 +1,7 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import ShowreelTeaser from '@/components/home/ShowreelTeaser.astro';
-import ProjectGallery from '@/components/home/ProjectGallery.astro';
+import Capabilities from '@/components/global/Capabilities.astro';
 import ContactShowcase from '@/components/home/ContactShowcase.astro';
-
-// Get featured/client projects for the gallery, sorted by date
-const clientProjects = await getCollection('projects', ({ data }) =>
-  !data.draft && data.client !== 'Self-initiated'
-);
-const sortedClientProjects = clientProjects.sort((a, b) =>
-  b.data.publishedDate.getTime() - a.data.publishedDate.getTime()
-);
 ---
 
 <BaseLayout>
@@ -28,21 +18,11 @@ const sortedClientProjects = clientProjects.sort((a, b) =>
       </p>
     </div>
 
-    <div class="hero-scroll" style="--delay: 0.8s">
-      <span class="scroll-text">Scroll to explore</span>
-      <span class="scroll-arrow">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 5v14M5 12l7 7 7-7"/>
-        </svg>
-      </span>
-    </div>
+
   </section>
 
-  <!-- Showreel Teaser -->
-  <ShowreelTeaser />
-
-  <!-- Selected Work - Horizontal Project Gallery -->
-  <ProjectGallery projects={sortedClientProjects} maxItems={4} />
+  <!-- Capabilities -->
+  <Capabilities />
 
   <!-- Contact Teaser -->
   <ContactShowcase />
@@ -164,32 +144,6 @@ const sortedClientProjects = clientProjects.sort((a, b) =>
     }
   }
 
-  /* Scroll indicator at bottom */
-  .hero-scroll {
-    position: absolute;
-    bottom: var(--space-12);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-3);
-    color: var(--color-text-muted);
-    opacity: 0;
-    animation: heroReveal 0.6s var(--ease-spring-soft) forwards;
-    animation-delay: var(--delay, 0s);
-  }
-
-  .scroll-text {
-    font-size: var(--text-xs);
-    font-weight: var(--font-medium);
-    letter-spacing: var(--tracking-widest);
-    text-transform: uppercase;
-  }
-
-  .scroll-arrow {
-    animation: bounceDown 2s var(--ease-spring-soft) infinite;
-    animation-delay: 1s;
-  }
-
   /* ==========================================================================
      Responsive
      ========================================================================== */
@@ -201,10 +155,6 @@ const sortedClientProjects = clientProjects.sort((a, b) =>
 
     .hero-line:nth-child(2) {
       margin-left: 0;
-    }
-
-    .hero-scroll {
-      display: none;
     }
   }
 </style>

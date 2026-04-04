@@ -7,8 +7,8 @@ interface Props {
 
 const {
   label = 'What we do',
-  ctaText = 'What we offer',
-  ctaLink = '/about#capabilities'
+  ctaText = 'What we do',
+  ctaLink = '/projects/'
 } = Astro.props;
 
 const capabilities = [
@@ -30,7 +30,6 @@ const capabilities = [
 <section class="capabilities">
   <div class="capabilities-inner">
     <header class="capabilities-header">
-      <span class="section-label">{label}</span>
       <p class="section-description">
         Full-service creative expertise spanning brand strategy to final production. We craft cohesive experiences across every touchpoint.
       </p>
@@ -303,10 +302,6 @@ const capabilities = [
       }
     });
 
-    // Re-show blob when entering grid
-    wrapper.addEventListener('mouseenter', () => {
-      // Blob will be shown when hovering an item
-    });
   };
 
   // Initialize
