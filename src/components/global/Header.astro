@@ -24,39 +24,16 @@ const currentPath = Astro.url.pathname;
 
 <style>
   .header {
-    position: fixed;
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
     z-index: 100;
     padding: var(--space-5) var(--gutter);
 
-    /* Collins-style: start transparent */
-    background-color: transparent;
-
-    /* Dynamic overlay that adapts to scroll theme */
-    --header-overlay: var(--color-overlay-light);
-
-    transition:
-      background-color var(--duration-normal) var(--ease-out),
-      backdrop-filter var(--duration-normal) var(--ease-out);
+    background-color: var(--color-bg-primary);
   }
 
-  /* When system is in dark mode, use dark overlay */
-  @media (prefers-color-scheme: dark) {
-    .header {
-      --header-overlay: var(--color-overlay-dark);
-    }
-  }
 
-  /* Scrolled state with blur backdrop (Collins-style) */
-  .header.is-scrolled {
-    background-color: var(--header-overlay);
-    backdrop-filter: var(--backdrop-blur-md);
-    -webkit-backdrop-filter: var(--backdrop-blur-md);
-  }
-
-  .header-inner {
+.header-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
