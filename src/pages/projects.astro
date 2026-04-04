@@ -48,12 +48,31 @@ const sortedProjects = projects.sort(
         </button>
         <div class="toggle-indicator" data-indicator></div>
       </div>
+
+      <div class="filter-group" role="group" aria-label="Filter by category">
+        <label class="filter-option">
+          <input type="radio" name="project-filter" value="all" checked />
+          <span>All</span>
+        </label>
+        <label class="filter-option">
+          <input type="radio" name="project-filter" value="branding" />
+          <span>Branding</span>
+        </label>
+        <label class="filter-option">
+          <input type="radio" name="project-filter" value="book" />
+          <span>Books</span>
+        </label>
+        <label class="filter-option">
+          <input type="radio" name="project-filter" value="web" />
+          <span>Web</span>
+        </label>
+      </div>
     </div>
 
     <div class="projects-container" data-projects-container data-view="grid">
       <div class="projects-grid">
         {sortedProjects.map((project, index) => (
-          <article class="project-item">
+          <article class="project-item" data-categories={project.data.category.join(' ')}>
             <a href={`/projects/${project.id}`} class="project-link">
               <span class="project-index">
                 {String(index + 1).padStart(2, '0')}
@@ -111,8 +130,9 @@ const sortedProjects = projects.sort(
      ========================================================================== */
   .projects-header {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
     padding-bottom: var(--space-8);
   }
 
@@ -189,6 +209,70 @@ const sortedProjects = projects.sort(
     .toggle-option {
       padding: var(--space-2) var(--space-3);
     }
+
+    .filter-option span {
+      padding: var(--space-2) var(--space-3);
+    }
+  }
+
+  /* ==========================================================================
+     Category Filter
+     ========================================================================== */
+  .filter-group {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .filter-option {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .filter-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  .filter-option span {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-2) var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-text-secondary);
+    border-radius: var(--radius-full);
+    transition: color var(--duration-fast) var(--ease-out),
+                background var(--duration-fast) var(--ease-out),
+                box-shadow var(--duration-fast) var(--ease-out);
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .filter-option:hover span {
+    color: var(--color-text-primary);
+  }
+
+  .filter-option input[type="radio"]:checked + span {
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .filter-option input[type="radio"]:focus-visible + span {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
   }
 
   /* ==========================================================================
@@ -462,6 +546,43 @@ const sortedProjects = projects.sort(
     });
   }
 
+  function initProjectsFilter() {
+    const radios = document.querySelectorAll('input[name="project-filter"]') as NodeListOf<HTMLInputElement>;
+    const items = document.querySelectorAll('.project-item') as NodeListOf<HTMLElement>;
+    if (!radios.length || !items.length) return;
+
+    function applyFilter(value: string) {
+      items.forEach(item => {
+        item.hidden = value !== 'all' && !item.dataset.categories?.split(' ').includes(value);
+      });
+      // Re-number visible items for list view
+      let n = 0;
+      items.forEach(item => {
+        if (!item.hidden) {
+          n++;
+          const el = item.querySelector('.project-index');
+          if (el) el.textContent = String(n).padStart(2, '0');
+        }
+      });
+      localStorage.setItem('projects-filter', value);
+    }
+
+    const saved = localStorage.getItem('projects-filter') || 'all';
+    const savedRadio = document.querySelector(
+      `input[name="project-filter"][value="${saved}"]`
+    ) as HTMLInputElement | null;
+    if (savedRadio) savedRadio.checked = true;
+    applyFilter(saved);
+
+    radios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.checked) applyFilter(radio.value);
+      });
+    });
+  }
+
   initProjectsToggle();
+  initProjectsFilter();
   document.addEventListener('astro:page-load', initProjectsToggle);
+  document.addEventListener('astro:page-load', initProjectsFilter);
 </script>

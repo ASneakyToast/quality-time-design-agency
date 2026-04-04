@@ -45,7 +45,7 @@ const projectsCollection = defineCollection({
         .optional(),
       designer: z.union([z.string(), z.array(z.string())]).optional(),
       draft: z.boolean().default(false),
-      category: z.enum(['branding', 'book']).default('branding'),
+      category: z.array(z.enum(['branding', 'book', 'web'])).default(['branding']),
     }),
 });
 
