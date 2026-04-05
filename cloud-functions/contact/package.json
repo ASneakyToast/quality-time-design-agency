@@ -1,7 +1,10 @@
 {
   "name": "contact-function",
   "main": "index.js",
+  "engines": {
+    "node": "22"
+  },
   "dependencies": {
-    "nodemailer": "^6.9.0"
+    "nodemailer": "^8.0.4"
   }
 }

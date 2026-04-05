@@ -22,4 +22,6 @@ steps:
       - --trigger-http
       - --allow-unauthenticated
       - --service-account=${_SERVICE_ACCOUNT}@$PROJECT_ID.iam.gserviceaccount.com
-      - --set-secrets=GMAIL_USER=GMAIL_USER:latest,GMAIL_APP_PASSWORD=GMAIL_APP_PASSWORD:latest
+      - --set-secrets=GMAIL_USER=GMAIL_USER:latest,GMAIL_APP_PASSWORD=GMAIL_APP_PASSWORD:latest,RECAPTCHA_SECRET_KEY=RECAPTCHA_SECRET_KEY:latest
+      - --memory=256Mi
+      - --timeout=15s

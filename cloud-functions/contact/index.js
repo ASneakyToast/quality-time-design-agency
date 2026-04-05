@@ -5,16 +5,49 @@ const ALLOWED_ORIGINS = [
   'http://localhost:4321',
 ];
 
+const ALLOWED_SERVICES = [
+  '',
+  'branding',
+  'web-design',
+  'print-packaging',
+  'art-direction',
+  'motion',
+  'environmental',
+];
+
+const SERVICE_LABELS = {
+  '': 'General Inquiry',
+  'branding': 'Branding',
+  'web-design': 'Web Design',
+  'print-packaging': 'Print & Packaging',
+  'art-direction': 'Art Direction',
+  'motion': 'Motion',
+  'environmental': 'Environmental',
+};
+
+// Validate env vars at startup — fail fast rather than at request time
+const { GMAIL_USER, GMAIL_APP_PASSWORD, RECAPTCHA_SECRET_KEY } = process.env;
+if (!GMAIL_USER || !GMAIL_APP_PASSWORD || !RECAPTCHA_SECRET_KEY) {
+  throw new Error('Missing required environment variables: GMAIL_USER, GMAIL_APP_PASSWORD, RECAPTCHA_SECRET_KEY');
+}
+
+// Module-level singleton — reused across warm invocations
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: GMAIL_USER,
+    pass: GMAIL_APP_PASSWORD,
+  },
+});
+
 exports.handler = async (req, res) => {
-  // Set CORS headers unconditionally before any early returns
   const origin = req.headers.origin;
   if (ALLOWED_ORIGINS.includes(origin)) {
     res.set('Access-Control-Allow-Origin', origin);
+    res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Content-Type');
   }
-  res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.set('Access-Control-Allow-Headers', 'Content-Type');
 
-  // Handle preflight
   if (req.method === 'OPTIONS') {
     return res.status(204).send('');
   }
@@ -28,44 +61,57 @@ exports.handler = async (req, res) => {
     return res.status(415).json({ error: 'Content-Type must be application/json' });
   }
 
-  const { name, email, service, message, honeypot } = req.body;
+  const { name: rawName, email, service, message: rawMessage, honeypot, recaptchaToken } = req.body;
 
   // Silent reject for bots
   if (honeypot) {
     return res.status(200).json({ success: true });
   }
 
+  // Verify reCAPTCHA token
+  if (!recaptchaToken) {
+    return res.status(400).json({ error: 'Invalid request' });
+  }
+  const verifyRes = await fetch(
+    `https://www.google.com/recaptcha/api/siteverify?secret=${RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`,
+    { method: 'POST' }
+  );
+  const verifyData = await verifyRes.json();
+  if (!verifyData.success || verifyData.action !== 'contact' || verifyData.score < 0.5) {
+    return res.status(400).json({ error: 'Invalid request' });
+  }
+
+  const name = (rawName || '').trim();
+  const message = (rawMessage || '').trim();
+
   // Validate required fields
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!name || !name.trim()) {
+  if (!name) {
     return res.status(400).json({ error: 'Name is required' });
+  }
+  if (name.length > 200) {
+    return res.status(400).json({ error: 'Name must be 200 characters or fewer' });
   }
   if (!email || !emailRegex.test(email)) {
     return res.status(400).json({ error: 'A valid email address is required' });
   }
-  if (!message || !message.trim()) {
+  if (!message) {
     return res.status(400).json({ error: 'Message is required' });
   }
   if (message.length > 5000) {
     return res.status(400).json({ error: 'Message must be 5,000 characters or fewer' });
   }
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_APP_PASSWORD,
-    },
-  });
-
-  const serviceLabel = service || 'General Inquiry';
+  // Validate service against known slugs; fall back to General Inquiry
+  const serviceSlug = ALLOWED_SERVICES.includes(service) ? service : '';
+  const serviceLabel = SERVICE_LABELS[serviceSlug];
 
   try {
     await transporter.sendMail({
-      from: `"Quality Time Contact Form" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER,
+      from: `"Quality Time Contact Form" <${GMAIL_USER}>`,
+      to: GMAIL_USER,
       replyTo: email,
-      subject: `New inquiry: ${serviceLabel} from ${name}`,
+      subject: `New inquiry: ${stripNewlines(serviceLabel)} from ${stripNewlines(name)}`,
       text: [
         `Name: ${name}`,
         `Email: ${email}`,
@@ -89,9 +135,14 @@ exports.handler = async (req, res) => {
   }
 };
 
+// Strip CR/LF to prevent SMTP header injection via subject line
+function stripNewlines(str) {
+  return String(str).replace(/[\r\n]/g, ' ');
+}
+
 function escapeHtml(str) {
   return String(str)
-    .replace(/&(?![\w#]+;)/g, '&amp;')
+    .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
