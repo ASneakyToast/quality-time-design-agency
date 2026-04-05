@@ -1,0 +1,25 @@
+substitutions:
+  _REGION: us-west1
+  _SERVICE_ACCOUNT: qualitytime-sa
+  _FUNCTION_NAME: quality-time-contact-function
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  dynamicSubstitutions: true
+
+steps:
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - functions
+      - deploy
+      - ${_FUNCTION_NAME}
+      - --gen2
+      - --region=${_REGION}
+      - --runtime=nodejs22
+      - --source=cloud-functions/contact
+      - --entry-point=handler
+      - --trigger-http
+      - --allow-unauthenticated
+      - --service-account=${_SERVICE_ACCOUNT}@$PROJECT_ID.iam.gserviceaccount.com
+      - --set-secrets=GMAIL_USER=GMAIL_USER:latest,GMAIL_APP_PASSWORD=GMAIL_APP_PASSWORD:latest
