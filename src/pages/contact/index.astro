@@ -39,8 +39,12 @@ const services = [
           <h2 class="section-label">Get in Touch</h2>
         </div>
         <div class="section-content">
-          <form name="contact" method="POST" data-netlify="true" class="contact-form">
-            <input type="hidden" name="form-name" value="contact" />
+          <form id="contact-form" class="contact-form">
+            <!-- Honeypot: hidden from humans, filled by bots -->
+            <div aria-hidden="true" style="position:absolute;left:-9999px">
+              <label>Leave blank <input name="honeypot" tabindex="-1" autocomplete="off"></label>
+            </div>
+
             <div class="form-field">
               <label for="name">Name</label>
               <input type="text" id="name" name="name" required placeholder="Your name" />
@@ -63,6 +67,12 @@ const services = [
               <label for="message">Message</label>
               <textarea id="message" name="message" rows="5" required placeholder="Tell us about your project..."></textarea>
             </div>
+
+            <p id="form-error" class="form-error" role="alert" hidden>
+              Something went wrong. Please try again or email us directly at
+              <a href="mailto:qualitytime.fun@gmail.com">qualitytime.fun@gmail.com</a>.
+            </p>
+
             <button type="submit" class="form-submit">
               Send Message
               <svg class="submit-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -203,6 +213,15 @@ const services = [
     min-height: 120px;
   }
 
+  .form-error {
+    font-size: var(--text-sm);
+    color: var(--color-accent);
+  }
+
+  .form-error a {
+    color: inherit;
+  }
+
   .form-submit {
     display: inline-flex;
     align-items: center;
@@ -226,17 +245,22 @@ const services = [
       transform var(--duration-fast) ease;
   }
 
-  .form-submit:hover {
+  .form-submit:hover:not(:disabled) {
     gap: var(--space-4);
     background-color: var(--color-accent);
     transform: translateY(-2px);
+  }
+
+  .form-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
   .submit-arrow {
     transition: transform var(--duration-fast) var(--ease-spring);
   }
 
-  .form-submit:hover .submit-arrow {
+  .form-submit:hover:not(:disabled) .submit-arrow {
     transform: translateX(4px);
   }
 
@@ -271,30 +295,68 @@ const services = [
 </style>
 
 <script>
-  // Handle service pre-selection from URL params (for View Transitions support)
-  const initServiceSelect = () => {
+  const FUNCTION_URL = import.meta.env.PUBLIC_CONTACT_FUNCTION_URL;
+
+  const initContactForm = () => {
+    // Handle service pre-selection from URL params
     const urlParams = new URLSearchParams(window.location.search);
     const serviceParam = urlParams.get('service');
     if (serviceParam) {
       const select = document.getElementById('service') as HTMLSelectElement;
-      if (select) {
-        select.value = serviceParam;
-      }
+      if (select) select.value = serviceParam;
 
-      // Scroll to the form section
       const formSection = document.getElementById('get-in-touch');
       if (formSection) {
-        // Small delay to allow page to render
-        setTimeout(() => {
-          formSection.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
+        setTimeout(() => formSection.scrollIntoView({ behavior: 'smooth' }), 100);
       }
     }
+
+    const form = document.getElementById('contact-form') as HTMLFormElement;
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      const errorEl = document.getElementById('form-error') as HTMLParagraphElement;
+
+      // Hide any previous error
+      errorEl.hidden = true;
+
+      // Loading state
+      const originalText = btn.textContent?.trim() ?? 'Send Message';
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+
+      const fields = {
+        name: (form.elements.namedItem('name') as HTMLInputElement).value,
+        email: (form.elements.namedItem('email') as HTMLInputElement).value,
+        service: (form.elements.namedItem('service') as HTMLSelectElement).value,
+        message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
+        honeypot: (form.elements.namedItem('honeypot') as HTMLInputElement).value,
+      };
+
+      try {
+        const res = await fetch(FUNCTION_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(fields),
+        });
+
+        if (res.ok) {
+          window.location.href = '/contact/success';
+          return;
+        }
+
+        throw new Error(`HTTP ${res.status}`);
+      } catch {
+        errorEl.hidden = false;
+        btn.innerHTML = `${originalText} <svg class="submit-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+        btn.disabled = false;
+      }
+    });
   };
 
-  // Run on initial load
-  initServiceSelect();
-
-  // Run on View Transitions navigation
-  document.addEventListener('astro:page-load', initServiceSelect);
+  initContactForm();
+  document.addEventListener('astro:page-load', initContactForm);
 </script>

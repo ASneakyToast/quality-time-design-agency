@@ -1,0 +1,7 @@
+{
+  "name": "contact-function",
+  "main": "index.js",
+  "dependencies": {
+    "nodemailer": "^6.9.0"
+  }
+}

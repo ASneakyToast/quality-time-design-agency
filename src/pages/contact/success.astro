@@ -1,0 +1,90 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Message Sent | Quality Time"
+  description="Your message has been received. We'll be in touch soon."
+>
+  <article class="success">
+    <div class="success-content">
+      <p class="success-label">Got it</p>
+      <h1 class="success-heading">Message sent.</h1>
+      <p class="success-body">
+        Thanks for reaching out — we'll be in touch soon.
+      </p>
+      <a href="/" class="success-link">
+        Back to home
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .success {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    padding: var(--space-32) var(--gutter);
+  }
+
+  .success-content {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+  }
+
+  .success-label {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: var(--space-4);
+  }
+
+  .success-heading {
+    font-family: var(--font-display);
+    font-size: var(--text-5xl);
+    margin-bottom: var(--space-6);
+  }
+
+  .success-body {
+    font-size: var(--text-xl);
+    color: var(--color-text-secondary);
+    max-width: 45ch;
+    margin-bottom: var(--space-12);
+  }
+
+  .success-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-text-primary);
+    transition: gap var(--duration-fast) var(--ease-spring);
+  }
+
+  .success-link:hover {
+    gap: var(--space-3);
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 768px) {
+    .success-heading {
+      font-size: var(--text-3xl);
+    }
+
+    .success-body {
+      font-size: var(--text-lg);
+    }
+  }
+</style>
