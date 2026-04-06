@@ -72,10 +72,11 @@ exports.handler = async (req, res) => {
   if (!recaptchaToken) {
     return res.status(400).json({ error: 'Invalid request' });
   }
-  const verifyRes = await fetch(
-    `https://www.google.com/recaptcha/api/siteverify?secret=${RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`,
-    { method: 'POST' }
-  );
+  const verifyRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ secret: RECAPTCHA_SECRET_KEY, response: recaptchaToken }),
+  });
   const verifyData = await verifyRes.json();
   if (!verifyData.success || verifyData.action !== 'contact' || verifyData.score < 0.5) {
     return res.status(400).json({ error: 'Invalid request' });
@@ -130,7 +131,7 @@ exports.handler = async (req, res) => {
 
     return res.status(200).json({ success: true });
   } catch (err) {
-    console.error('Nodemailer error:', err);
+    console.error('Nodemailer error:', err.code ?? err.message ?? 'unknown');
     return res.status(500).json({ error: 'Failed to send message. Please try again.' });
   }
 };
